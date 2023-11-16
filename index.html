@@ -33,22 +33,20 @@
 <body>
     <div class="container mt-4">
         <h1 class="mb-4">KEV Lite </h1>
-        <p>A low-calorie view of the current KEV list. Unofficial, not fit for any purpose, etc.</p>
-        <p>Complaints and requests will be efficiently ignored when sent to <a href="https://infosec.exchange/@todb/">@todb</a>.</p>
+        <p>A low-calorie view of the current KEV list. Unofficial, not fit for any purpose, etc. You almost certainly want the <a href="https://cisa.gov/kev">real KEV</a> catalog if you're going to rely on this data. Patches accepted at <a href="https://github.com/todb/kev-lite">GitHub</a>.</p>        
         <p>
-            <ul>
-                <li><a href="https://cisa.gov/kev">Real KEV</a></li>
-                <li><a href="https://www.cisa.gov/news-events/directives/bod-22-01-reducing-significant-risk-known-exploited-vulnerabilities">BOD 22-01</a> background and FAQ</li>
-            </ul>
+            Click anywhere <span style="background-color: #f0f8ff">in a row</span> to expand for more details, references, and notes.
         </p>
-        
-        <button class="btn btn-primary mb-3" id="expandAllBtn">Expand All Rows</button>
-        <button class="btn btn-primary mb-3" id="collapseAllBtn">Collapse All Rows</button>
-        <p><i>These expand/collapse buttons take a few seconds to respond, be patient when using them, please!</i></p>
+        <p>
+            Copy the <span style="background-color: #f0f8ff"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></span>
+ links to deeplink to a particular CVE (note, this trick doesn't seem to work for mobile browsers).
+        </p>
         <p>Vulnerabilities marked with
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>
+            <span style="background-color: #f0f8ff"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg></span>
             are known to be involved with ransomware attacks.
         </p>
+        <p> Patching due dates <b style="background-color: #f0f8ff">marked in bold</b> are still in the future -- they're still fresh!</p>
+
         <hr/>
         
         <div id="data-container"></div>
@@ -58,7 +56,7 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         
-        <!-- Your JavaScript code -->
+        <!-- Thanks ChatGPT for most of this JavaScript code -->
         <script>
             // Fetch JSON data from todb's GitHub
             fetch('https://todb.github.io/kev-lite/cisa.json')
@@ -103,7 +101,14 @@
                 
                 
                 // Display catalog information
-                container.innerHTML += `<h2>Catalog Version: ${data.catalogVersion} | Total KEVs: <b>${data.count}</b></h2>`;
+                container.innerHTML += `<h2>Catalog Version: ${data.catalogVersion} | Total KEV count: <b>${data.count}</b></h2>
+                
+                <button class="btn btn-primary mb-3" id="expandAllBtn">Expand All Rows</button>
+        <button class="btn btn-primary mb-3" id="collapseAllBtn">Collapse All Rows</button>
+        <p><i>These expand/collapse buttons take a few seconds to respond, be patient when using them, please!</i></p>
+
+                
+                `;
                 
                 // Create a table with Bootstrap's table-striped class
                 container.innerHTML += `
