@@ -211,37 +211,56 @@
                 });
             }
             
+
+
             document.addEventListener('DOMContentLoaded', function () {
-                const hash = window.location.hash;
-                if (hash && typeof $ !== 'undefined' && typeof $.fn.collapse !== 'undefined') {
-                    setTimeout(function () {
-                        const target = document.querySelector(hash);
-                        if (target) {
-                            $(target).collapse('show');
-                            // Scroll to the target
-                            target.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'start'
-                            });
-                            
-                            // Find the index of the row with the target hash
-                            const rows = document.querySelectorAll('.clickable-row');
-                            let rowIndex = -1;
-                            
-                            rows.forEach((row, index) => {
-                                const targetId = row.getAttribute('data-target');
-                                if (targetId === hash) {
-                                    rowIndex = index;
-                                }
-                            });
-                            
-                            // Calculate the height of the header row based on the row index and scroll there
-                            const rowHeight = rowIndex >= 0 ? rows[rowIndex].clientHeight : 0;
-                            window.scrollBy(0, -rowHeight);
+    const hash = window.location.hash;
+    if (hash && typeof $ !== 'undefined' && typeof $.fn.collapse !== 'undefined') {
+        setTimeout(function () {
+            const target = document.querySelector(hash);
+            if (target) {
+                if (isMobileBrowser()) {
+                    // For mobile browsers, toggle the collapse manually and scroll to the target
+                    $(target).collapse('toggle');
+                    setTimeout(() => scrollToTarget(target), 500);
+                } else {
+                    // For other browsers, use the Bootstrap collapse method and scroll to the target
+                    $(target).collapse('show');
+                    // Scroll to the target
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Find the index of the row with the target hash
+                    const rows = document.querySelectorAll('.clickable-row');
+                    let rowIndex = -1;
+                    rows.forEach((row, index) => {
+                        const targetId = row.getAttribute('data-target');
+                        if (targetId === hash) {
+                            rowIndex = index;
                         }
-                    }, 500);
+                    });
+                    // Calculate the height of the header row based on the row index and scroll there
+                    const rowHeight = rowIndex >= 0 ? rows[rowIndex].clientHeight : 0;
+                    window.scrollBy(0, -rowHeight);
                 }
-            });
+            }
+        }, 500);
+    }
+});
+
+function isMobileBrowser() {
+    // Use user agent detection or feature detection to identify mobile browsers
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+function scrollToTarget(target) {
+    // Scroll to the target with smooth behavior
+    target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+    });
+}
             
             function formatDate(inputDate) {
                 const options = { year: 'numeric', month: 'long', day: 'numeric' };
