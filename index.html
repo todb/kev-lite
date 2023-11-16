@@ -58,7 +58,17 @@
             .then(response => response.json())
             .then(data => {
                 // Sort vulnerabilities by dateAdded (latest first)
-                data.vulnerabilities.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
+                data.vulnerabilities.sort((a, b) => {
+                    const dateComparison = new Date(b.dateAdded) - new Date(a.dateAdded);
+                    
+                    if (dateComparison !== 0) {
+                        // If dateAdded is different, return the result of dateComparison
+                        return dateComparison;
+                    } else {
+                        // If dateAdded is the same, compare CVE IDs
+                        return a.cveID.localeCompare(b.cveID);
+                    }
+                });
                 // Assign the fetched data to the jsonData variable
                 const jsonData = data;
                 // Call the renderData function to display the sorted data on the page
