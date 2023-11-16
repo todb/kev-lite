@@ -154,17 +154,14 @@
         </script>
 
         <script>
-
             document.addEventListener('DOMContentLoaded', function () {
                 const hash = window.location.hash;
-                console.log('Here is the hash: ' + hash);
                 if (hash && typeof $ !== 'undefined' && typeof $.fn.collapse !== 'undefined') {
                     setTimeout(function () {
                         const target = document.querySelector(hash);
-                        console.log('Here is the target: ' + target);
                         if (target) {
                             $(target).collapse('show');
-                            // Scroll to the target and align it comfortably.
+                            // Scroll to the target
                             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
                             // Find the index of the row with the target hash
@@ -178,11 +175,8 @@
                                 }
                             });
 
-                            console.log('rowIndex: ' + rowIndex);
-                            // Calculate the height based on the row index
+                            // Calculate the height of the header row based on the row index and scroll there
                             const rowHeight = rowIndex >= 0 ? rows[rowIndex].clientHeight : 0;
-
-                            console.log('rowHeight: ' + rowHeight);
                             window.scrollBy(0, -rowHeight);
                         }
                     }, 500);
@@ -191,5 +185,4 @@
         </script>
     </div>
 </body>
-
 </html>
