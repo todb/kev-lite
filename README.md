@@ -1,2 +1,1 @@
-# kev-lite
-An unofficial, low-calorie version of the KEV list
+A low-calorie, unofficial mock-up for a compact KEV viewer.
