@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KEV Lite</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
     <style>
         .table-striped tbody tr:nth-of-type(odd) {
             background-color: #f0f8ff;
@@ -28,9 +26,7 @@
         .card-body p {
             word-wrap: break-word;
         }
-        
     </style>
-    
 </head>
 
 <body>
@@ -51,13 +47,13 @@
         <p> Patching due dates <span style="background-color: #f0f8ff; font-weight: bold; color:green">marked as green bold</span> are in the future -- they're still fresh and want immediate attention!</p>
         <hr/>
         <div id="data-container"></div>
-        
+
         <!-- Bootstrap JS and Popper.js (required for some Bootstrap components) -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        
-        <!-- Thanks ChatGPT for most of this JavaScript code -->
+
+        <!-- Thanks ChatGPT for most of this JavaScript / JQuery code -->
         <script>
             // Fetch JSON data from todb's GitHub
             fetch('https://todb.github.io/kev-lite/cisa.json')
@@ -81,10 +77,10 @@
                 renderData(jsonData);
             })
             .catch(error => console.error('Error fetching data:', error));
-            
+
             function renderData(data) {
                 const container = document.getElementById('data-container');
-                
+
                 // Iterate through vulnerabilities and update notes with clickable links
                 data.vulnerabilities.forEach(vulnerability => {
                     vulnerability.notes = vulnerability.notes.replace(/(https?:\/\/[^\s,]+)([\s,]*)/g, (match, captureLink, captureTrailing) => {
@@ -99,16 +95,14 @@
                         return `<a href="${captureLink}" target="_blank">${captureLink}</a>${captureTrailing}`;
                     });
                 });
-                
-                
+
                 // Display catalog information
                 container.innerHTML += `<h2>Catalog Version: ${data.catalogVersion} | Total KEV count: <b>${data.count}</b></h2>
-                
                 <button class="btn btn-primary mb-3" id="expandAllBtn">Expand All Rows</button>
                 <button class="btn btn-primary mb-3" id="collapseAllBtn">Collapse All Rows</button>
                 <p><i>These expand/collapse buttons take a few seconds to respond, be patient when using them, please!</i></p>
                 `;
-                
+
                 // Create a table with Bootstrap's table-striped class
                 container.innerHTML += `
                 <table class="table table-sm table-striped mt-3 table-responsive">
@@ -124,13 +118,13 @@
                     </tbody>
                 </table>
                 `;
-                
+
                 const tableBody = document.getElementById('vulnerability-table-body');
-                
+
                 // Display each vulnerability in the table
                 data.vulnerabilities.forEach(vulnerability => {
                     const row = document.createElement('tr');
-                    
+
                     // Check if dueDate is in the future, and style as bold if so.
                     const isDueDateInFuture = new Date(vulnerability.dueDate) > new Date();
                     const boldStyle = isDueDateInFuture ? 'font-weight: bold; color: green;' : '';
@@ -147,19 +141,17 @@
                         ${vulnerability.vulnerabilityName}
                         ${vulnerability.knownRansomwareCampaignUse === 'Known' ? '<svg fill="green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>' : ''}
                     </td>
-                    
                     <td class="text-nowrap d-none d-md-table-cell">${vulnerability.dateAdded}</td>
                     <td class="text-nowrap d-none d-md-table-cell" style="${boldStyle}">${vulnerability.dueDate}</td>
                     `;
-                    
+
                     // Add a data attribute to store additional information
                     row.setAttribute('data-toggle', 'collapse');
                     row.setAttribute('data-target', `#details-${vulnerability.cveID}`);
                     row.setAttribute('aria-controls', `details-${vulnerability.cveID}`);
                     row.classList.add('clickable-row');
-                    
                     tableBody.appendChild(row);
-                    
+
                     // Create a collapsible row for additional details
                     const detailsRow = document.createElement('tr');
                     detailsRow.innerHTML = `
@@ -176,10 +168,10 @@
                         </div>
                     </td>
                     `;
-                    
+
                     tableBody.appendChild(detailsRow);
                 });
-                
+
                 // Add click event listener to toggle collapse
                 const clickableRows = document.querySelectorAll('.clickable-row');
                 clickableRows.forEach(row => {
@@ -210,57 +202,55 @@
                     });
                 });
             }
-            
-
 
             document.addEventListener('DOMContentLoaded', function () {
-    const hash = window.location.hash;
-    if (hash && typeof $ !== 'undefined' && typeof $.fn.collapse !== 'undefined') {
-        setTimeout(function () {
-            const target = document.querySelector(hash);
-            if (target) {
-                if (isMobileBrowser()) {
-                    // For mobile browsers, toggle the collapse manually and scroll to the target
-                    $(target).collapse('toggle');
-                    setTimeout(() => scrollToTarget(target), 500);
-                } else {
-                    // For other browsers, use the Bootstrap collapse method and scroll to the target
-                    $(target).collapse('show');
-                    // Scroll to the target
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    // Find the index of the row with the target hash
-                    const rows = document.querySelectorAll('.clickable-row');
-                    let rowIndex = -1;
-                    rows.forEach((row, index) => {
-                        const targetId = row.getAttribute('data-target');
-                        if (targetId === hash) {
-                            rowIndex = index;
+                const hash = window.location.hash;
+                if (hash && typeof $ !== 'undefined' && typeof $.fn.collapse !== 'undefined') {
+                    setTimeout(function () {
+                        const target = document.querySelector(hash);
+                        if (target) {
+                            if (isMobileBrowser()) {
+                                // For mobile browsers, toggle the collapse manually and scroll to the target
+                                $(target).collapse('toggle');
+                                setTimeout(() => scrollToTarget(target), 500);
+                            } else {
+                                // For other browsers, use the Bootstrap collapse method and scroll to the target
+                                $(target).collapse('show');
+                                // Scroll to the target
+                                target.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'start'
+                                });
+                                // Find the index of the row with the target hash
+                                const rows = document.querySelectorAll('.clickable-row');
+                                let rowIndex = -1;
+                                rows.forEach((row, index) => {
+                                    const targetId = row.getAttribute('data-target');
+                                    if (targetId === hash) {
+                                        rowIndex = index;
+                                    }
+                                });
+                                // Calculate the height of the header row based on the row index and scroll there
+                                const rowHeight = rowIndex >= 0 ? rows[rowIndex].clientHeight : 0;
+                                window.scrollBy(0, -rowHeight);
+                            }
                         }
-                    });
-                    // Calculate the height of the header row based on the row index and scroll there
-                    const rowHeight = rowIndex >= 0 ? rows[rowIndex].clientHeight : 0;
-                    window.scrollBy(0, -rowHeight);
+                    }, 500);
                 }
+            });
+
+            function isMobileBrowser() {
+                // Use user agent detection or feature detection to identify mobile browsers
+                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             }
-        }, 500);
-    }
-});
 
-function isMobileBrowser() {
-    // Use user agent detection or feature detection to identify mobile browsers
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
-
-function scrollToTarget(target) {
-    // Scroll to the target with smooth behavior
-    target.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-    });
-}
+            function scrollToTarget(target) {
+                // Scroll to the target with smooth behavior
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
             
             function formatDate(inputDate) {
                 const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -270,5 +260,4 @@ function scrollToTarget(target) {
         </script>
     </div>
 </body>
-
 </html>
