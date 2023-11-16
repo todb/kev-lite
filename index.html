@@ -5,18 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KEV Lite</title>
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    <!-- Custom CSS for table styling -->
     <style>
         .table-striped tbody tr:nth-of-type(odd) {
             background-color: #f0f8ff;
             /* Light Blue */
         }
-    </style>
 
-    <style>
         /* Smaller font size for table cells */
         .table-sm td,
         .table-sm th {
@@ -31,6 +27,7 @@
             /* Enable word wrapping */
         }
     </style>
+
 </head>
 
 <body>
@@ -44,8 +41,11 @@
                 <li><a href="https://www.cisa.gov/news-events/directives/bod-22-01-reducing-significant-risk-known-exploited-vulnerabilities">BOD 22-01</a> background and FAQ</li>
             </ul>
         </p>
+        
         <button class="btn btn-primary mb-3" id="expandAllBtn">Expand All Rows</button>
         <button class="btn btn-primary mb-3" id="collapseAllBtn">Collapse All Rows</button>
+        <p><i>These expand/collapse buttons take a few seconds to respond, be patient when using them, please!</i></p>
+        <hr/>
 
         <div id="data-container"></div>
 
@@ -84,15 +84,13 @@
 
                 // Iterate through vulnerabilities and update notes with clickable links
                 data.vulnerabilities.forEach(vulnerability => {
-                    vulnerability.notes = vulnerability.notes.replace(/(https?:\/\/[^\s,]+)([\s,]*)/g, (match, cap1, cap2) => {
-                        return `<a href="${cap1}" target="_blank">${cap1}</a>${cap2}`;
+                    vulnerability.notes = vulnerability.notes.replace(/(https?:\/\/[^\s,]+)([\s,]*)/g, (match, captureLink, captureTrailing) => {
+                        return `<a href="${captureLink}" target="_blank">${captureLink}</a>${captureTrailing}`;
                     });
                 });
 
                 // Display catalog information
-                container.innerHTML += `<h2>Catalog Version: ${data.catalogVersion}</h2>`;
-                container.innerHTML += `<p>Date Released: ${data.dateReleased}</p>`;
-                container.innerHTML += `<p>Total Number of Known Exploited Vulnerabilities: ${data.count}</p>`;
+                container.innerHTML += `<h2>Catalog Version: ${data.catalogVersion} | Total KEVs: <b>${data.count}</b></h2>`;
 
                 // Create a table with Bootstrap's table-striped class
                 container.innerHTML += `
@@ -191,9 +189,6 @@
                 });
             }
 
-        </script>
-
-        <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const hash = window.location.hash;
                 if (hash && typeof $ !== 'undefined' && typeof $.fn.collapse !== 'undefined') {
