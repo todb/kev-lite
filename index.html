@@ -39,16 +39,14 @@
         </p>
         <p>
             Copy the <span style="background-color: #f0f8ff"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></span>
- links to deeplink to a particular CVE (note, this trick doesn't seem to work for mobile browsers).
+            links to deeplink to a particular CVE (note, this trick doesn't seem to work for mobile browsers).
         </p>
         <p>Vulnerabilities marked with
             <span style="background-color: #f0f8ff"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg></span>
             are known to be involved with ransomware attacks.
         </p>
-        <p> Patching due dates <b style="background-color: #f0f8ff">marked in bold</b> are still in the future -- they're still fresh!</p>
-
+        <p> Patching due dates <span style="background-color: #f0f8ff; font-weight: bold; color:red">marked as red bold</span> are in the future -- they're still fresh and need immediate attention!</p>
         <hr/>
-        
         <div id="data-container"></div>
         
         <!-- Bootstrap JS and Popper.js (required for some Bootstrap components) -->
@@ -104,10 +102,8 @@
                 container.innerHTML += `<h2>Catalog Version: ${data.catalogVersion} | Total KEV count: <b>${data.count}</b></h2>
                 
                 <button class="btn btn-primary mb-3" id="expandAllBtn">Expand All Rows</button>
-        <button class="btn btn-primary mb-3" id="collapseAllBtn">Collapse All Rows</button>
-        <p><i>These expand/collapse buttons take a few seconds to respond, be patient when using them, please!</i></p>
-
-                
+                <button class="btn btn-primary mb-3" id="collapseAllBtn">Collapse All Rows</button>
+                <p><i>These expand/collapse buttons take a few seconds to respond, be patient when using them, please!</i></p>
                 `;
                 
                 // Create a table with Bootstrap's table-striped class
@@ -134,7 +130,7 @@
                     
                     // Check if dueDate is in the future, and style as bold if so.
                     const isDueDateInFuture = new Date(vulnerability.dueDate) > new Date();
-                    const boldStyle = isDueDateInFuture ? 'font-weight: bold;' : '';
+                    const boldStyle = isDueDateInFuture ? 'font-weight: bold; color: red;' : '';
                     row.innerHTML = `
                     <td class="text-nowrap">
                         <a href="#details-${vulnerability.cveID}" class="details-link" onclick="event.preventDefault();">
@@ -168,6 +164,8 @@
                                 <p><strong>Description:</strong> ${vulnerability.shortDescription}</p>
                                 <p><strong>Action:</strong> ${vulnerability.requiredAction}</p>
                                 ${vulnerability.notes ? `<p><strong>Notes and Links:</strong> ${vulnerability.notes}</p>` : ''}
+                                <p><strong>Date added:</strong><span style="${boldStyle}"> ${formatDate(vulnerability.dateAdded)}</span></p>
+                                <p><strong>Due Date:</strong><span style="${boldStyle}"> ${formatDate(vulnerability.dueDate)}</span></p>
                                 ${vulnerability.knownRansomwareCampaignUse === 'Known' ? '<p><em>Note, this vulnerability has been used in at least one ransomware campaign.</em></p>' : ''}
                             </div>
                         </div>
@@ -239,6 +237,12 @@
                     }, 500);
                 }
             });
+
+            function formatDate(inputDate) {
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                const formattedDate = new Date(inputDate).toLocaleDateString(undefined, options);
+                return formattedDate;
+            }
         </script>
     </div>
 </body>
