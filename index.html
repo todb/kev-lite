@@ -7,7 +7,7 @@
     <title>KEV Lite</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
+
     <!-- Custom CSS for table styling -->
     <style>
         .table-striped tbody tr:nth-of-type(odd) {
@@ -15,7 +15,7 @@
             /* Light Blue */
         }
     </style>
-    
+
     <style>
         /* Smaller font size for table cells */
         .table-sm td,
@@ -23,7 +23,7 @@
             font-size: 0.8rem;
             /* Adjust the font size as needed */
         }
-        
+
         /* Limit the width of the "Vulnerability Name" field to 33% */
         .table-sm .vulnerability-name-cell {
             max-width: 33%;
@@ -45,12 +45,12 @@
             </ul>
         </p>
         <div id="data-container"></div>
-        
+
         <!-- Bootstrap JS and Popper.js (required for some Bootstrap components) -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        
+
         <!-- Your JavaScript code -->
         <script>
             // Fetch JSON data from the provided URL
@@ -65,22 +65,22 @@
                 renderData(jsonData);
             })
             .catch(error => console.error('Error fetching data:', error));
-            
+
             function renderData(data) {
                 const container = document.getElementById('data-container');
-                
+
                 // Iterate through vulnerabilities and update notes with clickable links
                 data.vulnerabilities.forEach(vulnerability => {
                     vulnerability.notes = vulnerability.notes.replace(/(https?:\/\/[^\s,]+)([\s,]*)/g, (match, cap1, cap2) => {
                         return `<a href="${cap1}" target="_blank">${cap1}</a>${cap2}`;
                     });
                 });
-                
+
                 // Display catalog information
                 container.innerHTML += `<h2>Catalog Version: ${data.catalogVersion}</h2>`;
                 container.innerHTML += `<p>Date Released: ${data.dateReleased}</p>`;
                 container.innerHTML += `<p>Total Number of Known Exploited Vulnerabilities: ${data.count}</p>`;
-                
+
                 // Create a table with Bootstrap's table-striped class
                 container.innerHTML += `
                 <table class="table table-sm table-striped mt-3">
@@ -96,9 +96,9 @@
                     </tbody>
                 </table>
                 `;
-                
+
                 const tableBody = document.getElementById('vulnerability-table-body');
-                
+
                 // Display each vulnerability in the table
                 data.vulnerabilities.forEach(vulnerability => {
                     const row = document.createElement('tr');
@@ -113,15 +113,15 @@
                     <td class="text-nowrap">${vulnerability.dateAdded}</td>
                     <td class="text-nowrap">${vulnerability.dueDate}</td>
                     `;
-                    
+
                     // Add a data attribute to store additional information
                     row.setAttribute('data-toggle', 'collapse');
                     row.setAttribute('data-target', `#details-${vulnerability.cveID}`);
                     row.setAttribute('aria-controls', `details-${vulnerability.cveID}`);
                     row.classList.add('clickable-row');
-                    
+
                     tableBody.appendChild(row);
-                    
+
                     // Create a collapsible row for additional details
                     const detailsRow = document.createElement('tr');
                     detailsRow.innerHTML = `
@@ -136,10 +136,10 @@
                         </div>
                     </td>
                     `;
-                    
+
                     tableBody.appendChild(detailsRow);
                 });
-                
+
                 // Add click event listener to toggle collapse
                 const clickableRows = document.querySelectorAll('.clickable-row');
                 clickableRows.forEach(row => {
@@ -150,10 +150,11 @@
                     });
                 });
             }
-            
+
         </script>
-        
+
         <script>
+
             document.addEventListener('DOMContentLoaded', function () {
                 const hash = window.location.hash;
                 console.log('Here is the hash: ' + hash);
@@ -165,24 +166,30 @@
                             $(target).collapse('show');
                             // Scroll to the target and align it comfortably.
                             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            window.scrollBy(0, -50);                    }
-                        }, 500);
-                    }
-                });
-                
-                // Add click event listener to toggle collapse
-                const clickableRows = document.querySelectorAll('.clickable-row');
-                clickableRows.forEach(row => {
-                    row.addEventListener('click', () => {
-                        const targetId = row.getAttribute('data-target');
-                        const target = document.querySelector(targetId);
-                        if (typeof $ !== 'undefined' && typeof $.fn.collapse !== 'undefined') {
-                            $(target).collapse('toggle');
+
+                            // Find the index of the row with the target hash
+                            const rows = document.querySelectorAll('.clickable-row');
+                            let rowIndex = -1;
+
+                            rows.forEach((row, index) => {
+                                const targetId = row.getAttribute('data-target');
+                                if (targetId === hash) {
+                                    rowIndex = index;
+                                }
+                            });
+
+                            console.log('rowIndex: ' + rowIndex);
+                            // Calculate the height based on the row index
+                            const rowHeight = rowIndex >= 0 ? rows[rowIndex].clientHeight : 0;
+
+                            console.log('rowHeight: ' + rowHeight);
+                            window.scrollBy(0, -rowHeight);
                         }
-                    });
-                });
-            </script>
-        </div>
-    </body>
-    
-    </html>
+                    }, 500);
+                }
+            });
+        </script>
+    </div>
+</body>
+
+</html>
