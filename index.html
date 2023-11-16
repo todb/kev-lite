@@ -10,26 +10,25 @@
     <style>
         .table-striped tbody tr:nth-of-type(odd) {
             background-color: #f0f8ff;
-            /* Light Blue */
         }
         
-        /* Smaller font size for table cells */
         .table-sm td,
         .table-sm th {
             font-size: 0.8rem;
             /* Adjust the font size as needed */
         }
         
-        /* Limit the width of the "Vulnerability Name" field to 33% */
         .table-sm .vulnerability-name-cell {
-            max-width: 33%;
+            width: 66%;
+            max-width: 66%;
             word-wrap: break-word;
-            /* Enable word wrapping */
+            overflow: hidden;
         }
-
+        
         .card-body p {
-           word-wrap: break-word;
+            word-wrap: break-word;
         }
+        
     </style>
     
 </head>
@@ -241,7 +240,7 @@
                     }, 500);
                 }
             });
-
+            
             function formatDate(inputDate) {
                 const options = { year: 'numeric', month: 'long', day: 'numeric' };
                 const formattedDate = new Date(inputDate).toLocaleDateString(undefined, options);
