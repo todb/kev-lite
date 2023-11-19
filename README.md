@@ -9,4 +9,4 @@ This is written using Bootstrap and JQuery, and much of the code was generated w
 
 MIT-Licensed, copyrighted by [Huge Success, LLC](https://hugesuccess.org). As much as ChatGPT sourced code can be copyrighted, anyway.
 
-Note, the real and official KEV, at https://cisa.gov/kev, is much more real and official. This is just a usability toy.
+Note, the real and official KEV at https://cisa.gov/kev, is much more real and official. This is just a usability toy.
