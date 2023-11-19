@@ -8,3 +8,5 @@ A low-calorie, unofficial mock-up for a compact KEV viewer. Features include:
 This is written using Bootstrap and JQuery, and much of the code was generated with ChatGPT.
 
 MIT-Licensed, copyrighted by [Huge Success, LLC](https://hugesuccess.org). As much as ChatGPT sourced code can be copyrighted, anyway.
+
+Note, the real and official KEV, at https://cisa.gov/kev, is much more real and official. This is just a usability toy.
