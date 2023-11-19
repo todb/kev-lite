@@ -1,4 +1,6 @@
-A low-calorie, unofficial mock-up for a compact KEV viewer. Features include:
+A low-calorie, unofficial mock-up for a compact KEV viewer. It's hosted at https://todb.github.io/kev-lite.
+
+Features include:
 
 * A basic table view for one-line summaries of vulnerabilities
 * Expandable Details sections for each vulnerability
