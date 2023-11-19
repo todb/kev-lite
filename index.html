@@ -26,247 +26,324 @@
         .card-body p {
             word-wrap: break-word;
         }
+        
+        .table {
+            width: 100%;
+            max-width: 100%;
+        }
+        
     </style>
 </head>
 
 <body>
     <div class="container-fluid mt-4">
+        
         <h1 class="mb-4">KEV Lite </h1>
+        
+        <div class="mb-3">
+            <input type="text" class="form-control" id="searchInput" placeholder="Filter by CVE ID or Vulnerability Name">
+        </div>
+        
         <p>A low-calorie view of the current KEV list. This page is very
             unofficial and not fit for any purpose. You almost certainly want
             the <a href="https://cisa.gov/kev">real KEV</a> catalog if you're
             going to rely on this data. Patches for this page are accepted at
             <a href="https://github.com/todb/kev-lite">GitHub</a>.</p>        
-        <p>
-            Click anywhere <span style="background-color: #f0f8ff">in a
-            row</span> to expand for more details, references, and notes.
-        </p>
-        <p>
-            Copy the <span style="background-color: #f0f8ff"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></span>
-            links to deeplink to a particular CVE entry on this page. Clicking
-            the CVE directly will open the original CVE at
-            <a href="https://cve.org">CVE.org</a>.
-        </p>
-        <p>Vulnerabilities marked with
-            <span style="background-color: #f0f8ff"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill="green" d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg></span>
-            are known to be involved with ransomware attacks.
-        </p>
-        <p> All of these vulnerabilities are serious, of course, but those
-            marked with due dates in <span style="background-color: #f0f8ff; font-weight: bold; color:green">green and bold</span>
-            are the freshest, most recently added issues.</p>
-        <hr/>
-        <div id="data-container"></div>
-
-        <!-- Bootstrap JS and Popper.js (required for some Bootstrap components) -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-        <!-- Thanks ChatGPT for most of this JavaScript / JQuery code -->
-        <script>
-            // Fetch JSON data from todb's GitHub
-            fetch('https://todb.github.io/kev-lite/cisa.json')
-            .then(response => response.json())
-            .then(data => {
-                // Sort vulnerabilities by dateAdded (latest first)
-                data.vulnerabilities.sort((a, b) => {
-                    const dateComparison = new Date(b.dateAdded) - new Date(a.dateAdded);
+            <p>
+                Click anywhere <span style="background-color: #f0f8ff">in a
+                    row</span> to expand for more details, references, and notes.
+                </p>
+                <p>
+                    Copy the <span style="background-color: #f0f8ff"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></span>
+                    links to deeplink to a particular CVE entry on this page. Clicking
+                    the CVE directly will open the original CVE at
+                    <a href="https://cve.org">CVE.org</a>.
+                </p>
+                <p>Vulnerabilities marked with
+                    <span style="background-color: #f0f8ff"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill="green" d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg></span>
+                    are known to be involved with ransomware attacks.
+                </p>
+                <p> All of these vulnerabilities are serious, of course, but those
+                    marked with due dates in <span style="background-color: #f0f8ff; font-weight: bold; color:green">green and bold</span>
+                    are the freshest, most recently added issues.</p>
+                    <hr/>
+                    <div id="data-container"></div>
                     
-                    if (dateComparison !== 0) {
-                        // If dateAdded is different, return the result of dateComparison
-                        return dateComparison;
-                    } else {
-                        // If dateAdded is the same, compare CVE IDs
-                        return a.cveID.localeCompare(b.cveID);
-                    }
-                });
-                // Assign the fetched data to the jsonData variable
-                const jsonData = data;
-                // Call the renderData function to display the sorted data on the page
-                renderData(jsonData);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-
-            function renderData(data) {
-                const container = document.getElementById('data-container');
-
-                // Iterate through vulnerabilities and update notes with clickable links
-                data.vulnerabilities.forEach(vulnerability => {
-                    vulnerability.notes = vulnerability.notes.replace(/(https?:\/\/[^\s,]+)([\s,]*)/g, (match, captureLink, captureTrailing) => {
-                        // Stupid hack to check if captureLink ends with a period which is almost certainly not part of the original URL
-                        if (captureLink.endsWith('.')) {
-                            // Remove the trailing period
-                            captureLink = captureLink.slice(0, -1);
-                            // And replace captureTrailing with a dot-space.
-                            captureTrailing = '. ';
+                    <!-- Bootstrap JS and Popper.js (required for some Bootstrap components) -->
+                    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                    
+                    <!-- Thanks ChatGPT for most of this JavaScript / JQuery code -->
+                    <script>
+                        // Fetch JSON data from todb's GitHub
+                        fetch('https://todb.github.io/kev-lite/cisa.json')
+                        .then(response => response.json())
+                        .then(data => {
+                            // Sort vulnerabilities by dateAdded (latest first)
+                            data.vulnerabilities.sort((a, b) => {
+                                const dateComparison = new Date(b.dateAdded) - new Date(a.dateAdded);
+                                
+                                if (dateComparison !== 0) {
+                                    // If dateAdded is different, return the result of dateComparison
+                                    return dateComparison;
+                                } else {
+                                    // If dateAdded is the same, compare CVE IDs
+                                    return a.cveID.localeCompare(b.cveID);
+                                }
+                            });
+                            // Assign the fetched data to the jsonData variable
+                            const jsonData = data;
+                            // Call the renderData function to display the sorted data on the page
+                            renderData(jsonData);
+                        })
+                        .catch(error => console.error('Error fetching data:', error));
+                        
+                        function renderData(data) {
+                            const container = document.getElementById('data-container');
                             
-                        }
-                        return `<a href="${captureLink}" target="_blank">${captureLink}</a>${captureTrailing}`;
-                    });
-                });
-
-                // Display catalog information
-                container.innerHTML += `<h2>Catalog Version: ${data.catalogVersion} | Total KEV count: <b>${data.count}</b></h2>
-                <button class="btn btn-primary mb-3" id="expandAllBtn">Expand All Rows</button>
-                <button class="btn btn-primary mb-3" id="collapseAllBtn">Collapse All Rows</button>
-                <p><i>These expand/collapse buttons take a few seconds to respond, be patient when using them, please!</i></p>
-                `;
-
-                // Create a table with Bootstrap's table-striped class
-                container.innerHTML += `
-                <table class="table table-sm table-striped mt-3 table-responsive">
-                    <thead>
-                        <tr>
-                            <th class="text-nowrap">CVE ID</th>
-                            <th class="vulnerability-name-cell">Vulnerability Name</th>
-                            <th class="text-nowrap d-none d-md-table-cell">Date Added</th>
-                            <th class="text-nowrap d-none d-md-table-cell">Due Date</th>
-                        </tr>
-                    </thead>
-                    <tbody id="vulnerability-table-body">
-                    </tbody>
-                </table>
-                `;
-
-                const tableBody = document.getElementById('vulnerability-table-body');
-
-                // Display each vulnerability in the table
-                data.vulnerabilities.forEach(vulnerability => {
-                    const row = document.createElement('tr');
-
-                    // Check if dueDate is in the future, and style as bold if so.
-                    const isDueDateInFuture = new Date(vulnerability.dueDate) > new Date();
-                    const boldStyle = isDueDateInFuture ? 'font-weight: bold; color: green;' : '';
-                    row.innerHTML = `
-                    <td class="text-nowrap">
-                        <a href="#details-${vulnerability.cveID}" class="details-link" onclick="event.preventDefault();">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-                        </a>
-                        <a href="https://www.cve.org/cverecord?id=${vulnerability.cveID}" target="_cve">
-                            ${vulnerability.cveID}
-                        </a>
-                    </td>
-                    <td class="vulnerability-name-cell">
-                        ${vulnerability.vulnerabilityName}
-                        ${vulnerability.knownRansomwareCampaignUse === 'Known' ? '<svg fill="green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>' : ''}
-                    </td>
-                    <td class="text-nowrap d-none d-md-table-cell">${vulnerability.dateAdded}</td>
-                    <td class="text-nowrap d-none d-md-table-cell" style="${boldStyle}">${vulnerability.dueDate}</td>
-                    `;
-
-                    // Add a data attribute to store additional information
-                    row.setAttribute('data-toggle', 'collapse');
-                    row.setAttribute('data-target', `#details-${vulnerability.cveID}`);
-                    row.setAttribute('aria-controls', `details-${vulnerability.cveID}`);
-                    row.classList.add('clickable-row');
-                    tableBody.appendChild(row);
-
-                    // Create a collapsible row for additional details
-                    const detailsRow = document.createElement('tr');
-                    detailsRow.innerHTML = `
-                    <td colspan="4" class="p-0">
-                        <div class="collapse" id="details-${vulnerability.cveID}">
-                            <div class="card card-body">
-                                <p><strong>Description:</strong> ${vulnerability.shortDescription}</p>
-                                <p><strong>Action:</strong> ${vulnerability.requiredAction}</p>
-                                ${vulnerability.notes ? `<p><strong>Notes and Links:</strong> ${vulnerability.notes}</p>` : ''}
-                                <p><strong>Date added:</strong><span> ${formatDate(vulnerability.dateAdded)}</span></p>
-                                <p><strong>Due Date:</strong><span style="${boldStyle}"> ${formatDate(vulnerability.dueDate)}</span></p>
-                                ${vulnerability.knownRansomwareCampaignUse === 'Known' ? '<p><em>Note, this vulnerability has been used in at least one ransomware campaign.</em></p>' : ''}
-                            </div>
-                        </div>
-                    </td>
-                    `;
-
-                    tableBody.appendChild(detailsRow);
-                });
-
-                // Add click event listener to toggle collapse
-                const clickableRows = document.querySelectorAll('.clickable-row');
-                clickableRows.forEach(row => {
-                    row.addEventListener('click', () => {
-                        const targetId = row.getAttribute('data-target');
-                        const target = document.querySelector(targetId);
-                        $(target).collapse('toggle');
-                    });
-                });
-                
-                // Add click event listener to the "Expand All Rows" button
-                const expandAllBtn = document.getElementById('expandAllBtn');
-                expandAllBtn.addEventListener('click', () => {
-                    clickableRows.forEach(row => {
-                        const targetId = row.getAttribute('data-target');
-                        const target = document.querySelector(targetId);
-                        $(target).collapse('show');
-                    });
-                });
-                
-                // Add click event listener to the "Collapse All Rows" button
-                const collapseAllBtn = document.getElementById('collapseAllBtn');
-                collapseAllBtn.addEventListener('click', () => {
-                    clickableRows.forEach(row => {
-                        const targetId = row.getAttribute('data-target');
-                        const target = document.querySelector(targetId);
-                        $(target).collapse('hide');
-                    });
-                });
-            }
-
-            document.addEventListener('DOMContentLoaded', function () {
-                const hash = window.location.hash;
-                if (hash && typeof $ !== 'undefined' && typeof $.fn.collapse !== 'undefined') {
-                    setTimeout(function () {
-                        const target = document.querySelector(hash);
-                        if (target) {
-                            if (isMobileBrowser()) {
-                                // For mobile browsers, toggle the collapse manually and scroll to the target
-                                $(target).collapse('toggle');
-                                setTimeout(() => scrollToTarget(target), 500);
-                            } else {
-                                // For other browsers, use the Bootstrap collapse method and scroll to the target
-                                $(target).collapse('show');
-                                // Scroll to the target
-                                target.scrollIntoView({
-                                    behavior: 'smooth',
-                                    block: 'start'
-                                });
-                                // Find the index of the row with the target hash
-                                const rows = document.querySelectorAll('.clickable-row');
-                                let rowIndex = -1;
-                                rows.forEach((row, index) => {
-                                    const targetId = row.getAttribute('data-target');
-                                    if (targetId === hash) {
-                                        rowIndex = index;
+                            // Iterate through vulnerabilities and update notes with clickable links
+                            data.vulnerabilities.forEach(vulnerability => {
+                                vulnerability.notes = vulnerability.notes.replace(/(https?:\/\/[^\s,]+)([\s,]*)/g, (match, captureLink, captureTrailing) => {
+                                    // Stupid hack to check if captureLink ends with a period which is almost certainly not part of the original URL
+                                    if (captureLink.endsWith('.')) {
+                                        // Remove the trailing period
+                                        captureLink = captureLink.slice(0, -1);
+                                        // And replace captureTrailing with a dot-space.
+                                        captureTrailing = '. ';
+                                        
                                     }
+                                    return `<a href="${captureLink}" target="_blank">${captureLink}</a>${captureTrailing}`;
                                 });
-                                // Calculate the height of the header row based on the row index and scroll there
-                                const rowHeight = rowIndex >= 0 ? rows[rowIndex].clientHeight : 0;
-                                window.scrollBy(0, -rowHeight);
+                            });
+                            
+                            // Display catalog information
+                            container.innerHTML += `<h2>Catalog Version: ${data.catalogVersion} | Total KEV count: <b>${data.count}</b></h2>
+                            <button class="btn btn-primary mb-3" id="expandAllBtn">Expand All Rows</button>
+                            <button class="btn btn-primary mb-3" id="collapseAllBtn">Collapse All Rows</button>
+                            <p><i>These expand/collapse buttons take a few seconds to respond, be patient when using them, please!</i></p>
+                            `;
+                            
+                            // Create a table with Bootstrap's table-striped class
+                            container.innerHTML += `
+                            <table class="table table-sm table-striped mt-3">
+                                <thead>
+                                    <tr>
+                                        <th class="text-nowrap">CVE ID</th>
+                                        <th class="vulnerability-name-cell">Vulnerability Name</th>
+                                        <th class="text-nowrap d-none d-md-table-cell">Date Added</th>
+                                        <th class="text-nowrap d-none d-md-table-cell">Due Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="vulnerability-table-body">
+                                </tbody>
+                            </table>
+                            `;
+                            
+                            const tableBody = document.getElementById('vulnerability-table-body');
+                            
+                            // Display each vulnerability in the table
+                            data.vulnerabilities.forEach(vulnerability => {
+                                const row = document.createElement('tr');
+                                
+                                // Check if dueDate is in the future, and style as bold if so.
+                                const isDueDateInFuture = new Date(vulnerability.dueDate) > new Date();
+                                const boldStyle = isDueDateInFuture ? 'font-weight: bold; color: green;' : '';
+                                row.innerHTML = `
+                                <td class="text-nowrap">
+                                    <a href="#details-${vulnerability.cveID}" class="details-link" onclick="event.preventDefault();">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+                                    </a>
+                                    <a href="https://www.cve.org/cverecord?id=${vulnerability.cveID}" target="_cve">
+                                        ${vulnerability.cveID}
+                                    </a>
+                                </td>
+                                <td class="vulnerability-name-cell">
+                                    ${vulnerability.vulnerabilityName}
+                                    ${vulnerability.knownRansomwareCampaignUse === 'Known' ? '<svg fill="green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>' : ''}
+                                </td>
+                                <td class="text-nowrap d-none d-md-table-cell">${vulnerability.dateAdded}</td>
+                                <td class="text-nowrap d-none d-md-table-cell" style="${boldStyle}">${vulnerability.dueDate}</td>
+                                `;
+                                
+                                // Add a data attribute to store additional information
+                                row.setAttribute('data-toggle', 'collapse');
+                                row.setAttribute('data-target', `#details-${vulnerability.cveID}`);
+                                row.setAttribute('aria-controls', `details-${vulnerability.cveID}`);
+                                row.classList.add('clickable-row');
+                                tableBody.appendChild(row);
+                                
+                                // Create a collapsible row for additional details
+                                const detailsRow = document.createElement('tr');
+                                detailsRow.innerHTML = `
+                                <td colspan="4" class="p-0">
+                                    <div class="collapse" id="details-${vulnerability.cveID}">
+                                        <div class="card card-body">
+                                            <p><strong>Description:</strong> ${vulnerability.shortDescription}</p>
+                                            <p><strong>Action:</strong> ${vulnerability.requiredAction}</p>
+                                            ${vulnerability.notes ? `<p><strong>Notes and Links:</strong> ${vulnerability.notes}</p>` : ''}
+                                            <p><strong>Date added:</strong><span> ${formatDate(vulnerability.dateAdded)}</span></p>
+                                            <p><strong>Due Date:</strong><span style="${boldStyle}"> ${formatDate(vulnerability.dueDate)}</span></p>
+                                            ${vulnerability.knownRansomwareCampaignUse === 'Known' ? '<p><em>Note, this vulnerability has been used in at least one ransomware campaign.</em></p>' : ''}
+                                        </div>
+                                    </div>
+                                </td>
+                                `;
+                                
+                                tableBody.appendChild(detailsRow);
+                            });
+                            
+                            // Add click event listener to toggle collapse
+                            const clickableRows = document.querySelectorAll('.clickable-row');
+                            clickableRows.forEach(row => {
+                                row.addEventListener('click', () => {
+                                    const targetId = row.getAttribute('data-target');
+                                    const target = document.querySelector(targetId);
+                                    $(target).collapse('toggle');
+                                });
+                            });
+                            
+                            // Add click event listener to the "Expand All Rows" button
+                            const expandAllBtn = document.getElementById('expandAllBtn');
+                            expandAllBtn.addEventListener('click', () => {
+                                clickableRows.forEach(row => {
+                                    const targetId = row.getAttribute('data-target');
+                                    const target = document.querySelector(targetId);
+                                    $(target).collapse('show');
+                                });
+                            });
+                            
+                            // Add click event listener to the "Collapse All Rows" button
+                            const collapseAllBtn = document.getElementById('collapseAllBtn');
+                            collapseAllBtn.addEventListener('click', () => {
+                                clickableRows.forEach(row => {
+                                    const targetId = row.getAttribute('data-target');
+                                    const target = document.querySelector(targetId);
+                                    $(target).collapse('hide');
+                                });
+                            });
+                        }
+                        
+                        document.addEventListener('DOMContentLoaded', function () {
+                            
+                            // Add event listener to the search box
+                            const searchInput = document.getElementById('searchInput');
+                            searchInput.addEventListener('input', function () {
+                                filterVulnerabilities(this.value);
+                            });
+                            
+                            // Your existing event listener for the "Expand All Rows" button
+                            const expandAllBtn = document.getElementById('expandAllBtn');
+                            expandAllBtn.addEventListener('click', () => {
+                                clickableRows.forEach(row => {
+                                    const targetId = row.getAttribute('data-target');
+                                    const target = document.querySelector(targetId);
+                                    $(target).collapse('show');
+                                });
+                                // Show all rows and adjust buttons
+                                showAllRows();
+                            });
+                            
+                            // Your existing event listener for the "Collapse All Rows" button
+                            const collapseAllBtn = document.getElementById('collapseAllBtn');
+                            collapseAllBtn.addEventListener('click', () => {
+                                clickableRows.forEach(row => {
+                                    const targetId = row.getAttribute('data-target');
+                                    const target = document.querySelector(targetId);
+                                    $(target).collapse('hide');
+                                });
+                                // Hide all rows and adjust buttons
+                                hideAllRows();
+                            });
+                        });
+                        
+                        function isMobileBrowser() {
+                            // Use user agent detection or feature detection to identify mobile browsers
+                            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                        }
+                        
+                        function scrollToTarget(target) {
+                            // Scroll to the target with smooth behavior
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                        
+                        function formatDate(inputDate) {
+                            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                            const formattedDate = new Date(inputDate).toLocaleDateString(undefined, options);
+                            return formattedDate;
+                        }
+                        
+                        function adjustButtonsDisplay() {
+                            const clickableRows = document.querySelectorAll('.clickable-row');
+                            const visibleRows = Array.from(clickableRows).filter(row => row.style.display !== 'none');
+                            
+                            // If there are visible rows, display the collapse/expand buttons
+                            if (visibleRows.length > 0) {
+                                collapseAllBtn.style.display = 'inline-block';
+                                expandAllBtn.style.display = 'inline-block';
+                            } else {
+                                // If no rows are visible, hide the collapse/expand buttons
+                                collapseAllBtn.style.display = 'none';
+                                expandAllBtn.style.display = 'none';
                             }
                         }
-                    }, 500);
-                }
-            });
-
-            function isMobileBrowser() {
-                // Use user agent detection or feature detection to identify mobile browsers
-                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            }
-
-            function scrollToTarget(target) {
-                // Scroll to the target with smooth behavior
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
+                        
+                        function showAllRows() {
+                            const clickableRows = document.querySelectorAll('.clickable-row');
+                            clickableRows.forEach(row => {
+                                row.style.display = 'table-row';
+                            });
+                            hideDetailsRows();
+                            adjustButtonsDisplay();
+                        }
+                        
+                        function hideAllRows() {
+                            const clickableRows = document.querySelectorAll('.clickable-row');
+                            clickableRows.forEach(row => {
+                                row.style.display = 'none';
+                            });
+                            hideDetailsRows();
+                            adjustButtonsDisplay();
+                        }
+                        
+                        function hideDetailsRows() {
+                            const detailsRows = document.querySelectorAll('.clickable-row + tr');
+                            detailsRows.forEach(row => {
+                                const parentRow = row.previousElementSibling;
+                                if (parentRow.style.display === 'none') {
+                                    row.style.display = 'none';
+                                } else {
+                                    row.style.display = 'table-row';
+                                }
+                            });
+                        }
+                        
+                        function filterVulnerabilities(searchTerm) {
+                            const clickableRows = document.querySelectorAll('.clickable-row');
+                            clickableRows.forEach(row => {
+                                const vulnerability = row.querySelector('.vulnerability-name-cell').textContent.toLowerCase();
+                                const cveId = row.querySelector('a[target="_cve"]').textContent.toLowerCase();
+                                
+                                // Show or hide the row based on whether it matches the search term
+                                if (vulnerability.includes(searchTerm.toLowerCase()) || cveId.includes(searchTerm.toLowerCase())) {
+                                    row.style.display = 'table-row';
+                                } else {
+                                    row.style.display = 'none';
+                                }
+                            });
+                            
+                            // Hide or show the corresponding details rows
+                            hideDetailsRows();
+                            // Adjust the display of the collapse/expand buttons
+                            adjustButtonsDisplay();
+                        }
+                        
+                        
+                    </script>
+                </div>
+            </body>
+            </html>
             
-            function formatDate(inputDate) {
-                const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                const formattedDate = new Date(inputDate).toLocaleDateString(undefined, options);
-                return formattedDate;
-            }
-        </script>
-    </div>
-</body>
-</html>
