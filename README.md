@@ -5,6 +5,6 @@ A low-calorie, unofficial mock-up for a compact KEV viewer. Features include:
 * Filtering across CVE IDs and vulnerability names
 * A single page deployment that reads a local copy of the KEV JSON data
 
-This is written using the Bootstrap and JQuery, and much of the code was generated with ChatGPT.
+This is written using Bootstrap and JQuery, and much of the code was generated with ChatGPT.
 
 MIT-Licensed, copyrighted by [Huge Success, LLC](https://hugesuccess.org). As much as ChatGPT sourced code can be copyrighted, anyway.
