@@ -32,6 +32,39 @@
         }
         
     </style>
+    
+    <style>
+        body.dark-mode {
+            background-color: #222;
+            color: #fff;
+        }
+    
+        .dark-mode .table-striped tbody tr:nth-of-type(odd),
+        .dark-mode .card-body,
+        .dark-mode .form-control,
+        .dark-mode .card-body p,
+        .dark-mode th {
+            background-color: #333;
+            color: #fff;
+        }
+    
+        .toggleable-background{
+            background-color: #f0f8ff;
+        }
+    
+        .toggleable-background-bold-green {
+            font-weight: bold;
+            background-color: #f0f8ff;
+            color: green;
+        }
+    
+        body.dark-mode .toggleable-background,
+        body.dark-mode .toggleable-background-bold-green {
+            background-color: #333;
+        }
+
+    </style>
+
 </head>
 
 <body>
@@ -41,7 +74,7 @@
         
         <div class="mb-3">
             <input type="text" class="form-control" id="searchInput" placeholder="Filter by CVE ID or Vulnerability Name">
-        </div>
+        </div>        
         
         <p>A low-calorie view of the current KEV list. This page is very
             unofficial and not fit for any purpose. You almost certainly want
@@ -49,21 +82,21 @@
             going to rely on this data. Patches for this page are accepted at
             <a href="https://github.com/todb/kev-lite">GitHub</a>.</p>        
             <p>
-                Click anywhere <span style="background-color: #f0f8ff">in a
+                Click anywhere <span class="toggleable-background">in a
                     row</span> to expand for more details, references, and notes.
                 </p>
                 <p>
-                    Copy the <span style="background-color: #f0f8ff"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></span>
+                    Copy the <span class="toggleable-background"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></span>
                     links to deeplink to a particular CVE entry on this page. Clicking
                     the CVE directly will open the original CVE at
                     <a href="https://cve.org">CVE.org</a>.
                 </p>
                 <p>Vulnerabilities marked with
-                    <span style="background-color: #f0f8ff"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill="green" d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg></span>
+                    <span class="toggleable-background"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill="green" d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg></span>
                     are known to be involved with ransomware attacks.
                 </p>
                 <p> All of these vulnerabilities are serious, of course, but those
-                    marked with due dates in <span style="background-color: #f0f8ff; font-weight: bold; color:green">green and bold</span>
+                    marked with due dates in <span class="toggleable-background-bold-green">green and bold</span>
                     are the freshest, most recently added issues.</p>
                     <hr/>
                     <div id="data-container"></div>
@@ -116,6 +149,7 @@
                             container.innerHTML += `<h2>Catalog Version: ${data.catalogVersion} | Total KEV count: <b>${data.count}</b></h2>
                             <button class="btn btn-primary mb-3" id="expandAllBtn">Expand All Rows</button>
                             <button class="btn btn-primary mb-3" id="collapseAllBtn">Collapse All Rows</button>
+                            <button class="btn btn-primary mb-3" id="darkModeToggle">Toggle Dark Mode</button>
                             <p><i>These expand/collapse buttons take a few seconds to respond, be patient when using them, please!</i></p>
                             `;
                             
@@ -220,8 +254,6 @@
                             });
                             
                             const expandAllBtn = document.getElementById('expandAllBtn');
-                            const collapseAllBtn = document.getElementById('collapseAllBtn');
-                            
                             if (expandAllBtn) {
                                 expandAllBtn.addEventListener('click', () => {
                                     clickableRows.forEach(row => {
@@ -233,8 +265,10 @@
                                     });
                                     showAllRows();
                                 });
+                                
                             }
                             
+                            const collapseAllBtn = document.getElementById('collapseAllBtn');
                             if (collapseAllBtn) {
                                 collapseAllBtn.addEventListener('click', () => {
                                     clickableRows.forEach(row => {
@@ -247,15 +281,37 @@
                                     hideAllRows();
                                 });
                             }
-                        });
-                        setTimeout(function () {
                             
+                            const darkModeToggle = document.getElementById('darkModeToggle');
+                            if (darkModeToggle) {
+                                console.log('found the button');
+                                darkModeToggle.addEventListener('click', () => {
+                                    console.log('Button clicked!');
+                                    toggleDarkMode();
+                                });
+                            }
+                            
+                        });
+                        
+                        setTimeout(function () {
                             handleInitialNavigation();
                         }, 1000);
+                        
+                        document.body.addEventListener('click', function (event) {
+                            const darkModeToggle = event.target.closest('#darkModeToggle');
+                            if (darkModeToggle) {
+                                console.log('Button clicked!');
+                                toggleDarkMode();
+                            }
+                        });
                         
                         function isMobileBrowser() {
                             // Use user agent detection or feature detection to identify mobile browsers
                             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                        }
+                        
+                        function toggleDarkMode() {
+                            document.body.classList.toggle('dark-mode');
                         }
                         
                         function scrollToTarget(target) {
