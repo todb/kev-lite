@@ -13,7 +13,6 @@
         .table-sm td,
         .table-sm th {
             font-size: 0.8rem;
-            /* Adjust the font size as needed */
         }
         
         .table-sm .vulnerability-name-cell {
@@ -76,11 +75,10 @@
                     
                     <!-- Thanks ChatGPT for most of this JavaScript / JQuery code -->
                     <script>
-                        // Fetch JSON data from todb's GitHub
                         fetch('https://todb.github.io/kev-lite/cisa.json')
                         .then(response => response.json())
                         .then(data => {
-                            // Sort vulnerabilities by dateAdded (latest first)
+                            // Sort vulnerabilities by dateAdded, then by CVE ID (latest first)
                             data.vulnerabilities.sort((a, b) => {
                                 const dateComparison = new Date(b.dateAdded) - new Date(a.dateAdded);
                                 
@@ -92,9 +90,7 @@
                                     return a.cveID.localeCompare(b.cveID);
                                 }
                             });
-                            // Assign the fetched data to the jsonData variable
                             const jsonData = data;
-                            // Call the renderData function to display the sorted data on the page
                             renderData(jsonData);
                         })
                         .catch(error => console.error('Error fetching data:', error));
@@ -117,7 +113,6 @@
                                 });
                             });
                             
-                            // Display catalog information
                             container.innerHTML += `<h2>Catalog Version: ${data.catalogVersion} | Total KEV count: <b>${data.count}</b></h2>
                             <button class="btn btn-primary mb-3" id="expandAllBtn">Expand All Rows</button>
                             <button class="btn btn-primary mb-3" id="collapseAllBtn">Collapse All Rows</button>
@@ -142,11 +137,9 @@
                             
                             const tableBody = document.getElementById('vulnerability-table-body');
                             
-                            // Display each vulnerability in the table
                             data.vulnerabilities.forEach(vulnerability => {
                                 const row = document.createElement('tr');
                                 
-                                // Check if dueDate is in the future, and style as bold if so.
                                 const isDueDateInFuture = new Date(vulnerability.dueDate) > new Date();
                                 const boldStyle = isDueDateInFuture ? 'font-weight: bold; color: green;' : '';
                                 row.innerHTML = `
@@ -166,14 +159,12 @@
                                 <td class="text-nowrap d-none d-md-table-cell" style="${boldStyle}">${vulnerability.dueDate}</td>
                                 `;
                                 
-                                // Add a data attribute to store additional information
                                 row.setAttribute('data-toggle', 'collapse');
                                 row.setAttribute('data-target', `#details-${vulnerability.cveID}`);
                                 row.setAttribute('aria-controls', `details-${vulnerability.cveID}`);
                                 row.classList.add('clickable-row');
                                 tableBody.appendChild(row);
                                 
-                                // Create a collapsible row for additional details
                                 const detailsRow = document.createElement('tr');
                                 detailsRow.innerHTML = `
                                 <td colspan="4" class="p-0">
@@ -193,7 +184,6 @@
                                 tableBody.appendChild(detailsRow);
                             });
                             
-                            // Add click event listener to toggle collapse
                             const clickableRows = document.querySelectorAll('.clickable-row');
                             clickableRows.forEach(row => {
                                 row.addEventListener('click', () => {
@@ -203,7 +193,6 @@
                                 });
                             });
                             
-                            // Add click event listener to the "Expand All Rows" button
                             const expandAllBtn = document.getElementById('expandAllBtn');
                             expandAllBtn.addEventListener('click', () => {
                                 clickableRows.forEach(row => {
@@ -213,7 +202,6 @@
                                 });
                             });
                             
-                            // Add click event listener to the "Collapse All Rows" button
                             const collapseAllBtn = document.getElementById('collapseAllBtn');
                             collapseAllBtn.addEventListener('click', () => {
                                 clickableRows.forEach(row => {
@@ -226,36 +214,44 @@
                         
                         document.addEventListener('DOMContentLoaded', function () {
                             
-                            // Add event listener to the search box
                             const searchInput = document.getElementById('searchInput');
                             searchInput.addEventListener('input', function () {
                                 filterVulnerabilities(this.value);
                             });
                             
-                            // Your existing event listener for the "Expand All Rows" button
                             const expandAllBtn = document.getElementById('expandAllBtn');
-                            expandAllBtn.addEventListener('click', () => {
-                                clickableRows.forEach(row => {
-                                    const targetId = row.getAttribute('data-target');
-                                    const target = document.querySelector(targetId);
-                                    $(target).collapse('show');
-                                });
-                                // Show all rows and adjust buttons
-                                showAllRows();
-                            });
-                            
-                            // Your existing event listener for the "Collapse All Rows" button
                             const collapseAllBtn = document.getElementById('collapseAllBtn');
-                            collapseAllBtn.addEventListener('click', () => {
-                                clickableRows.forEach(row => {
-                                    const targetId = row.getAttribute('data-target');
-                                    const target = document.querySelector(targetId);
-                                    $(target).collapse('hide');
+                            
+                            if (expandAllBtn) {
+                                expandAllBtn.addEventListener('click', () => {
+                                    clickableRows.forEach(row => {
+                                        const targetId = row.getAttribute('data-target');
+                                        const target = document.querySelector(targetId);
+                                        if (target) {
+                                            $(target).collapse('show');
+                                        }
+                                    });
+                                    showAllRows();
                                 });
-                                // Hide all rows and adjust buttons
-                                hideAllRows();
-                            });
+                            }
+                            
+                            if (collapseAllBtn) {
+                                collapseAllBtn.addEventListener('click', () => {
+                                    clickableRows.forEach(row => {
+                                        const targetId = row.getAttribute('data-target');
+                                        const target = document.querySelector(targetId);
+                                        if (target) {
+                                            $(target).collapse('hide');
+                                        }
+                                    });
+                                    hideAllRows();
+                                });
+                            }
                         });
+                        setTimeout(function () {
+                            
+                            handleInitialNavigation();
+                        }, 1000);
                         
                         function isMobileBrowser() {
                             // Use user agent detection or feature detection to identify mobile browsers
@@ -263,7 +259,6 @@
                         }
                         
                         function scrollToTarget(target) {
-                            // Scroll to the target with smooth behavior
                             target.scrollIntoView({
                                 behavior: 'smooth',
                                 block: 'start'
@@ -276,28 +271,12 @@
                             return formattedDate;
                         }
                         
-                        function adjustButtonsDisplay() {
-                            const clickableRows = document.querySelectorAll('.clickable-row');
-                            const visibleRows = Array.from(clickableRows).filter(row => row.style.display !== 'none');
-                            
-                            // If there are visible rows, display the collapse/expand buttons
-                            if (visibleRows.length > 0) {
-                                collapseAllBtn.style.display = 'inline-block';
-                                expandAllBtn.style.display = 'inline-block';
-                            } else {
-                                // If no rows are visible, hide the collapse/expand buttons
-                                collapseAllBtn.style.display = 'none';
-                                expandAllBtn.style.display = 'none';
-                            }
-                        }
-                        
                         function showAllRows() {
                             const clickableRows = document.querySelectorAll('.clickable-row');
                             clickableRows.forEach(row => {
                                 row.style.display = 'table-row';
                             });
                             hideDetailsRows();
-                            adjustButtonsDisplay();
                         }
                         
                         function hideAllRows() {
@@ -306,7 +285,6 @@
                                 row.style.display = 'none';
                             });
                             hideDetailsRows();
-                            adjustButtonsDisplay();
                         }
                         
                         function hideDetailsRows() {
@@ -319,6 +297,39 @@
                                     row.style.display = 'table-row';
                                 }
                             });
+                        }
+                        
+                        function handleInitialNavigation() {
+                            const hash = window.location.hash;
+                            if (hash && typeof $ !== 'undefined' && typeof $.fn.collapse !== 'undefined') {
+                                const target = document.querySelector(hash);
+                                if (target) {
+                                    if (isMobileBrowser()) {
+                                        // For mobile browsers, toggle the collapse manually and scroll to the target
+                                        $(target).collapse('toggle');
+                                        scrollToTarget(target);
+                                    } else {
+                                        // For other browsers, use the Bootstrap collapse method and scroll to the target
+                                        $(target).collapse('show');
+                                        target.scrollIntoView({
+                                            behavior: 'smooth',
+                                            block: 'start'
+                                        });
+                                        // Find the index of the row with the target hash
+                                        const rows = document.querySelectorAll('.clickable-row');
+                                        let rowIndex = -1;
+                                        rows.forEach((row, index) => {
+                                            const targetId = row.getAttribute('data-target');
+                                            if (targetId === hash) {
+                                                rowIndex = index;
+                                            }
+                                        });
+                                        // Calculate the height of the header row based on the row index and scroll there
+                                        const rowHeight = rowIndex >= 0 ? rows[rowIndex].clientHeight : 0;
+                                        window.scrollBy(0, -rowHeight);
+                                    }
+                                }
+                            }
                         }
                         
                         function filterVulnerabilities(searchTerm) {
@@ -335,12 +346,8 @@
                                 }
                             });
                             
-                            // Hide or show the corresponding details rows
                             hideDetailsRows();
-                            // Adjust the display of the collapse/expand buttons
-                            adjustButtonsDisplay();
                         }
-                        
                         
                     </script>
                 </div>
