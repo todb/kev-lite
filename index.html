@@ -287,9 +287,7 @@
                             
                             const darkModeToggle = document.getElementById('darkModeToggle');
                             if (darkModeToggle) {
-                                console.log('found the button');
                                 darkModeToggle.addEventListener('click', () => {
-                                    console.log('Button clicked!');
                                     toggleDarkMode();
                                 });
                             }
@@ -303,7 +301,6 @@
                         document.body.addEventListener('click', function (event) {
                             const darkModeToggle = event.target.closest('#darkModeToggle');
                             if (darkModeToggle) {
-                                console.log('Button clicked!');
                                 toggleDarkMode();
                             }
                         });
