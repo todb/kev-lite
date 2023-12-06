@@ -286,6 +286,12 @@
                             }
                             
                             const darkModeToggle = document.getElementById('darkModeToggle');
+                            const darkModeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+                            if (darkModeMediaQuery.matches) {
+                                document.body.classList.add('dark-mode');
+                            }
+
                             if (darkModeToggle) {
                                 darkModeToggle.addEventListener('click', () => {
                                     toggleDarkMode();
