@@ -149,7 +149,7 @@
                                 });
                             });
                             
-                            container.innerHTML += `<h2>Catalog Version: ${data.catalogVersion} | Total KEV count: <b>${data.count}</b> <p id="shownRowsCount"></p></h2>
+                            container.innerHTML += `<h2 data-total-count="${data.count}">Catalog Version: ${data.catalogVersion} | Total KEV count: <b>${data.count}</b> <p id="shownRowsCount"></p></h2>
                             <button class="btn btn-primary mb-3" id="expandAllBtn">Expand All Rows</button>
                             <button class="btn btn-primary mb-3" id="collapseAllBtn">Collapse All Rows</button>
                             <button class="btn btn-primary mb-3" id="darkModeToggle">Toggle Dark Mode</button>
@@ -426,7 +426,16 @@
                         
                         function updateShownRowsCount(visibleVulns) {
                             const shownRowsCountElement = document.getElementById('shownRowsCount');
-                            shownRowsCountElement.textContent = `Showing ${visibleVulns} vulnerabilities`;
+                            const totalCount = document.querySelector('h2').getAttribute('data-total-count');
+                            if (visibleVulns == 1) {
+                                shownRowsCountElement.textContent = `Showing just ${visibleVulns} vulnerability`;
+                            } else if (visibleVulns == totalCount) {
+                                shownRowsCountElement.textContent = `Showing all vulnerabilities`;
+                            } else if (visibleVulns == 0) {
+                                shownRowsCountElement.textContent = `Showing no vulnerabilities. Check your filter term?`;
+                            } else {
+                                shownRowsCountElement.textContent = `Showing ${visibleVulns} vulnerabilities`;
+                            }
                         }
                         
                         
