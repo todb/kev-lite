@@ -149,7 +149,7 @@
                                 });
                             });
                             
-                            container.innerHTML += `<h2>Catalog Version: ${data.catalogVersion} | Total KEV count: <b>${data.count}</b></h2>
+                            container.innerHTML += `<h2>Catalog Version: ${data.catalogVersion} | Total KEV count: <b>${data.count}</b> <p id="shownRowsCount"></p></h2>
                             <button class="btn btn-primary mb-3" id="expandAllBtn">Expand All Rows</button>
                             <button class="btn btn-primary mb-3" id="collapseAllBtn">Collapse All Rows</button>
                             <button class="btn btn-primary mb-3" id="darkModeToggle">Toggle Dark Mode</button>
@@ -404,6 +404,8 @@
                         }
                         
                         function filterVulnerabilities(searchTerm) {
+                            let visibleVulns = 0;
+                            
                             const clickableRows = document.querySelectorAll('.clickable-row');
                             clickableRows.forEach(row => {
                                 const vulnerability = row.querySelector('.vulnerability-name-cell').textContent.toLowerCase();
@@ -412,13 +414,21 @@
                                 // Show or hide the row based on whether it matches the search term
                                 if (vulnerability.includes(searchTerm.toLowerCase()) || cveId.includes(searchTerm.toLowerCase())) {
                                     row.style.display = 'table-row';
+                                    visibleVulns += 1;
                                 } else {
                                     row.style.display = 'none';
                                 }
                             });
                             
                             hideDetailsRows();
+                            updateShownRowsCount(visibleVulns);
                         }
+                        
+                        function updateShownRowsCount(visibleVulns) {
+                            const shownRowsCountElement = document.getElementById('shownRowsCount');
+                            shownRowsCountElement.textContent = `Showing ${visibleVulns} vulnerabilities`;
+                        }
+                        
                         
                     </script>
                 </div>
