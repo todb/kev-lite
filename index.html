@@ -29,7 +29,7 @@
             width: 100%;
             max-width: 100%;
         }
-
+        
         .form-control {
             width: 50%;
         }
@@ -41,7 +41,7 @@
             background-color: #222;
             color: #fff;
         }
-    
+        
         .dark-mode .table-striped tbody tr:nth-of-type(odd),
         .dark-mode .card-body,
         .dark-mode .form-control,
@@ -50,24 +50,24 @@
             background-color: #333;
             color: #fff;
         }
-    
+        
         .toggleable-background{
             background-color: #f0f8ff;
         }
-    
+        
         .toggleable-background-bold-green {
             font-weight: bold;
             background-color: #f0f8ff;
             color: green;
         }
-    
+        
         body.dark-mode .toggleable-background,
         body.dark-mode .toggleable-background-bold-green {
             background-color: #333;
         }
-
+        
     </style>
-
+    
 </head>
 
 <body>
@@ -177,7 +177,7 @@
                             data.vulnerabilities.forEach(vulnerability => {
                                 const row = document.createElement('tr');
                                 
-                                const isDueDateInFuture = new Date(vulnerability.dueDate) > new Date();
+                                const isDueDateInFuture = new Date(vulnerability.dueDate) >= new Date();
                                 const boldStyle = isDueDateInFuture ? 'font-weight: bold; color: green;' : '';
                                 row.innerHTML = `
                                 <td class="text-nowrap">
@@ -287,11 +287,11 @@
                             
                             const darkModeToggle = document.getElementById('darkModeToggle');
                             const darkModeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-
+                            
                             if (darkModeMediaQuery.matches) {
                                 document.body.classList.add('dark-mode');
                             }
-
+                            
                             if (darkModeToggle) {
                                 darkModeToggle.addEventListener('click', () => {
                                     toggleDarkMode();
@@ -328,8 +328,17 @@
                         }
                         
                         function formatDate(inputDate) {
-                            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                            const formattedDate = new Date(inputDate).toLocaleDateString(undefined, options);
+                            // Assuming inputDate is in the format "YYYY-MM-DD"
+                            const [year, month, day] = inputDate.split('-');
+                            
+                            // Construct the date without using time information
+                            const formattedDate = new Date(Date.UTC(year, month - 1, day)).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                timeZone: 'UTC' // Specify UTC to avoid timezone adjustments
+                            });
+                            
                             return formattedDate;
                         }
                         
