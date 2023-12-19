@@ -428,13 +428,13 @@
                             const shownRowsCountElement = document.getElementById('shownRowsCount');
                             const totalCount = document.querySelector('h2').getAttribute('data-total-count');
                             if (visibleVulns == 1) {
-                                shownRowsCountElement.textContent = `Showing just ${visibleVulns} vulnerability`;
+                                shownRowsCountElement.textContent = `Showing just ${visibleVulns} CVE`;
                             } else if (visibleVulns == totalCount) {
-                                shownRowsCountElement.textContent = `Showing all vulnerabilities`;
+                                shownRowsCountElement.textContent = `Showing all CVEs`;
                             } else if (visibleVulns == 0) {
-                                shownRowsCountElement.textContent = `Showing no vulnerabilities. Check your filter term?`;
+                                shownRowsCountElement.textContent = `Showing no CVEs. Check your filter term?`;
                             } else {
-                                shownRowsCountElement.textContent = `Showing ${visibleVulns} vulnerabilities`;
+                                shownRowsCountElement.textContent = `Showing ${visibleVulns} CVEs`;
                             }
                         }
                         
