@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+cd "$(dirname "$0")"
+
 json_file="cisa.json"
 log_file="kev.log"
 curl -o "$json_file" https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json
