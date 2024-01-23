@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 cd "$(dirname "$0")"
+git pull -r
 
 json_file="cisa.json"
 log_file="kev.log"
