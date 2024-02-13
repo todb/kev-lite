@@ -1,7 +1,7 @@
 {
     "title": "CISA Catalog of Known Exploited Vulnerabilities",
     "catalogVersion": "2024.02.13",
-    "dateReleased": "2024-02-13T18:59:13.6342Z",
+    "dateReleased": "2024-02-13T19:52:57.0736Z",
     "count": 1079,
     "vulnerabilities": [
         {
@@ -12865,7 +12865,7 @@
             "shortDescription": "Atlassian Confluence Data Center and Server contain an unauthenticated OGNL template injection vulnerability that can lead to remote code execution.",
             "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "dueDate": "2024-02-14",
-            "knownRansomwareCampaignUse": "Unknown",
+            "knownRansomwareCampaignUse": "Known",
             "notes": "https:\/\/confluence.atlassian.com\/security\/cve-2023-22527-rce-remote-code-execution-vulnerability-in-confluence-data-center-and-confluence-server-1333990257.html"
         },
         {
