@@ -1,7 +1,7 @@
 {
     "title": "CISA Catalog of Known Exploited Vulnerabilities",
     "catalogVersion": "2024.05.13",
-    "dateReleased": "2024-05-13T14:00:03.4587Z",
+    "dateReleased": "2024-05-13T17:49:08.2951Z",
     "count": 1105,
     "vulnerabilities": [
         {
@@ -13256,9 +13256,9 @@
             "cveID": "CVE-2024-4671",
             "vendorProject": "Google",
             "product": "Chromium",
-            "vulnerabilityName": "Google Chromium in Visuals Use-After-Free Vulnerability",
+            "vulnerabilityName": "Google Chromium Visuals Use-After-Free Vulnerability",
             "dateAdded": "2024-05-13",
-            "shortDescription": "Google Chromium Visuals contains a use-after-free vulnerability that allows a remote attacker to exploit heap corruption via a crafted HTML page.",
+            "shortDescription": "Google Chromium Visuals contains a use-after-free vulnerability that allows a remote attacker to exploit heap corruption via a crafted HTML page. This vulnerability could affect multiple web browsers that utilize Chromium, including, but not limited to, Google Chrome, Microsoft Edge, and Opera.",
             "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "dueDate": "2024-06-03",
             "knownRansomwareCampaignUse": "Unknown",
