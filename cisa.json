@@ -1,7 +1,7 @@
 {
     "title": "CISA Catalog of Known Exploited Vulnerabilities",
-    "catalogVersion": "2024.05.29",
-    "dateReleased": "2024-05-29T14:00:16.7176Z",
+    "catalogVersion": "2024.05.30",
+    "dateReleased": "2024-05-30T12:42:13.3426Z",
     "count": 1115,
     "vulnerabilities": [
         {
@@ -13069,7 +13069,7 @@
             "shortDescription": "JetBrains TeamCity contains an authentication bypass vulnerability that allows an attacker to perform admin actions.",
             "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "dueDate": "2024-03-28",
-            "knownRansomwareCampaignUse": "Unknown",
+            "knownRansomwareCampaignUse": "Known",
             "notes": "https:\/\/www.jetbrains.com\/help\/teamcity\/teamcity-2023-11-4-release-notes.html"
         },
         {
