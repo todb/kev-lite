@@ -19,7 +19,11 @@ if [ -n "$(git status --porcelain "$json_file")" ]; then
     git add "$json_file"
     git commit -m "Update $json_file"
     git push origin
+
+    # Only keep trailing six months of logs
+    tmp_file=$(mktemp /tmp/kev.log.XXXXXX) && tail -n 5039 "$log_file" > "$tmp_file" && mv "$tmp_file" "$log_file"
     echo "$(date): $json_file has been changed and committed." | tee -a "$log_file"
+
 else
     echo "$(date): No changes in $json_file." | tee -a "$log_file"
 fi
