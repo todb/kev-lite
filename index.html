@@ -137,14 +137,13 @@
                             
                             // Iterate through vulnerabilities and update notes with clickable links
                             data.vulnerabilities.forEach(vulnerability => {
-                                vulnerability.notes = vulnerability.notes.replace(/(https?:\/\/[^\s,]+)([\s,]*)/g, (match, captureLink, captureTrailing) => {
-                                    // Stupid hack to check if captureLink ends with a period which is almost certainly not part of the original URL
-                                    if (captureLink.endsWith('.')) {
-                                        // Remove the trailing period
+                                vulnerability.notes = vulnerability.notes.replace(/(https?:\/\/[^\s,;]+)([\s,;]*)/g, (match, captureLink, captureTrailing) => {
+                                    // Check if captureLink ends with a period or semicolon
+                                    if (captureLink.endsWith('.') || captureLink.endsWith(';')) {
+                                        // Remove the trailing period or semicolon
                                         captureLink = captureLink.slice(0, -1);
-                                        // And replace captureTrailing with a dot-space.
+                                        // And captureTrailing to handle trailing period and space
                                         captureTrailing = '. ';
-                                        
                                     }
                                     return `<a href="${captureLink}" target="_blank">${captureLink}</a>${captureTrailing}`;
                                 });
