@@ -138,6 +138,12 @@
                             // Iterate through vulnerabilities and update notes with clickable links
                             data.vulnerabilities.forEach(vulnerability => {
                                 vulnerability.notes = vulnerability.notes.replace(/(https?:\/\/[^\s,;]+)([\s,;]*)/g, (match, captureLink, captureTrailing) => {
+
+                                     // Check for redundant URLs to CVE listings.
+                                    if (captureLink.includes('nvd.nist.gov')) {
+                                        return '';  // Discard this URL by returning an empty string
+                                    }
+
                                     // Check if captureLink ends with a period or semicolon
                                     if (captureLink.endsWith('.') || captureLink.endsWith(';')) {
                                         // Remove the trailing period or semicolon
@@ -148,7 +154,7 @@
                                     return `<a href="${captureLink}" target="_blank">${captureLink}</a>${captureTrailing}`;
                                 });
                             });
-                            
+
                             container.innerHTML += `<h2 data-total-count="${data.count}">Catalog Version: ${data.catalogVersion}<br>Total KEV count: <b>${data.count}</b><p id="shownRowsCount"></p></h2>
                             <button class="btn btn-primary mb-3" id="expandAllBtn">Expand All Rows</button>
                             <button class="btn btn-primary mb-3" id="collapseAllBtn">Collapse All Rows</button>
