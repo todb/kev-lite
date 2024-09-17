@@ -137,23 +137,28 @@
                             
                             // Iterate through vulnerabilities and update notes with clickable links
                             data.vulnerabilities.forEach(vulnerability => {
-                                vulnerability.notes = vulnerability.notes.replace(/(https?:\/\/[^\s,;]+)([\s,;]*)/g, (match, captureLink, captureTrailing) => {
+                                vulnerability.notes = vulnerability.notes
+                                    .replace(/(https?:\/\/[^\s,;]+)([\s,;]*)/g, (match, captureLink, captureTrailing) => {
 
-                                     // Check for redundant URLs to CVE listings.
-                                    if (captureLink.includes('nvd.nist.gov')) {
-                                        return '';  // Discard this URL by returning an empty string
-                                    }
+                                        // Check for redundant URLs to CVE listings.
+                                        if (captureLink.includes('nvd.nist.gov')) {
+                                            return '';  // Discard this URL by returning an empty string
+                                        }
 
-                                    // Check if captureLink ends with a period or semicolon
-                                    if (captureLink.endsWith('.') || captureLink.endsWith(';')) {
-                                        // Remove the trailing period or semicolon
-                                        captureLink = captureLink.slice(0, -1);
-                                        // And captureTrailing to handle trailing period and space
-                                        captureTrailing = '. ';
-                                    }
-                                    return `<a href="${captureLink}" target="_blank">${captureLink}</a>${captureTrailing}`;
-                                });
+                                        // Check if captureLink ends with a period or semicolon
+                                        if (captureLink.endsWith('.') || captureLink.endsWith(';')) {
+                                            // Remove the trailing period or semicolon
+                                            captureLink = captureLink.slice(0, -1);
+                                            // Adjust captureTrailing to handle the case where we removed the punctuation
+                                            captureTrailing = '. ';
+                                        }
+
+                                        return `<a href="${captureLink}" target="_blank">${captureLink}</a>${captureTrailing}`;
+                                    })
+                                    // Tidy up any trailing semicolons or spaces
+                                    .replace(/[\s;]+$/, '');
                             });
+
 
                             container.innerHTML += `<h2 data-total-count="${data.count}">Catalog Version: ${data.catalogVersion}<br>Total KEV count: <b>${data.count}</b><p id="shownRowsCount"></p></h2>
                             <button class="btn btn-primary mb-3" id="expandAllBtn">Expand All Rows</button>
