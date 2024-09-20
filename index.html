@@ -135,8 +135,15 @@
                         function renderData(data) {
                             const container = document.getElementById('data-container');
                             
-                            // Iterate through vulnerabilities and update notes with clickable links
+                            // Iterate through vulnerabilities fix up the data to be clickable
                             data.vulnerabilities.forEach(vulnerability => {
+                                vulnerability.cwes = (vulnerability.cwes || []).flat().join(", ")
+                                    .replace(
+                                    /CWE-(\d+)/g, (match, captureCweNumber) => {
+                                        return `<a href="https://cwe.mitre.org/data/definitions/${captureCweNumber}.html" target="_blank">CWE-${captureCweNumber}</a>`;
+
+                                    }  
+                                    )
                                 vulnerability.notes = vulnerability.notes
                                     .replace(/(https?:\/\/[^\s,;]+)([\s,;]*)/g, (match, captureLink, captureTrailing) => {
 
@@ -173,6 +180,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-nowrap">CVE ID</th>
+                                        <th class="text-nowrap">CWE</th>
                                         <th class="vulnerability-name-cell">Vulnerability Name</th>
                                         <th class="text-nowrap d-none d-md-table-cell">Date Added</th>
                                         <th class="text-nowrap d-none d-md-table-cell">Due Date</th>
@@ -198,6 +206,9 @@
                                     <a href="https://www.cve.org/cverecord?id=${vulnerability.cveID}" target="_cve">
                                         ${vulnerability.cveID}
                                     </a>
+                                </td>
+                                <td class="text-nowrap">
+                                    ${vulnerability.cwes}
                                 </td>
                                 <td class="vulnerability-name-cell">
                                     ${vulnerability.vulnerabilityName}
@@ -276,7 +287,7 @@
                             }
                                 filterVulnerabilities(this.value);
                             });
-                            
+
                             const expandAllBtn = document.getElementById('expandAllBtn');
                             if (expandAllBtn) {
                                 expandAllBtn.addEventListener('click', () => {
