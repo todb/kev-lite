@@ -70,7 +70,35 @@
         body.dark-mode .toggleable-background-bold-green {
             background-color: #333;
         }
-        
+
+        #about-toggle {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .dark-mode #about-toggle {
+            color: cyan; /* Set color to cyan in dark mode */
+        }
+
+    </style>
+
+    <style>
+        .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
+
+        .header h6 {
+        margin: 0;
+        font-size: 0.8rem; /* Adjust size of h6 */
+        }
+
+        .header a {
+        text-decoration: none; /* Optional: removes underline */
+        }
+
     </style>
     
 </head>
@@ -78,12 +106,18 @@
 <body>
     <div class="container-fluid mt-4">
         
-        <h1 class="mb-4">KEV Lite</h1>
+        <div class="header">
+            <h1 class="mb-4">KEV Lite</h1>
+            <h6>by <a href="https://hugesuccess.org">Huge Success, LLC</a></h6>
+        </div>
         
         <div class="mb-3">
             <input type="text" class="form-control" id="searchInput" placeholder="Filter by CVE/Vuln">
         </div>        
         
+        <div id="about-toggle">[about]</div>
+
+        <div id="about" style="display: none;">
         <p>A low-calorie view of the current KEV list. This page is very
             unofficial and not fit for any purpose. You almost certainly want
             the <a href="https://cisa.gov/kev">real KEV</a> catalog if you're
@@ -107,6 +141,8 @@
                     marked with due dates in <span class="toggleable-background-bold-green">green and bold</span>
                     are the freshest, most recently added issues.</p>
                     <hr/>
+                </div>
+
                     <div id="data-container"></div>
                     
                     <!-- Bootstrap JS and Popper.js (required for some Bootstrap components) -->
@@ -481,7 +517,15 @@
                             }
                         }
                         
-                        
+                        document.getElementById('about-toggle').addEventListener('click', function() {
+                            var aboutDiv = document.getElementById('about');
+                            if (aboutDiv.style.display === 'none') {
+                                aboutDiv.style.display = 'block';
+                            } else {
+                                aboutDiv.style.display = 'none';
+                            }
+                        });
+
                     </script>
                 </div>
             </body>
