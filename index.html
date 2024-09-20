@@ -263,7 +263,17 @@
                         document.addEventListener('DOMContentLoaded', function () {
                             
                             const searchInput = document.getElementById('searchInput');
+                            // Catch common misspellings of CVEs. Em-dashes and en-dashes, namely.
+                            const badCveRegex = /^\s*[Cc][Vv][Ee]([^-]\d{4}.\d{4}|-\d{4}[^-]\d{4})/;
+
                             searchInput.addEventListener('input', function () {
+                            if (badCveRegex.test(this.value)) {
+                                searchInput.style.border = '2px solid red';
+                                searchInput.style.backgroundColor = '#f9d';
+                            } else {
+                                searchInput.style.border = '';
+                                searchInput.style.backgroundColor = '';
+                            }
                                 filterVulnerabilities(this.value);
                             });
                             
