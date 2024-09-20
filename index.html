@@ -135,10 +135,15 @@
                         function renderData(data) {
                             const container = document.getElementById('data-container');
                             
-                            // Iterate through vulnerabilities fix up the data to be clickable
+                            // Iterate through vulnerabilities fix up the data to be nicely formatted
+
                             data.vulnerabilities.forEach(vulnerability => {
 
-                                // Parse out the last CWE since it's usually the best one.
+                                // Drop the trailing word "Vulnerability" from all names.
+                                vulnerability.vulnerabilityName = vulnerability.vulnerabilityName
+                                    .replace(/Vulnerability\s*$/, '');
+                                
+                                // Parse out and link to last CWE since it's usually the best one.
                                 vulnerability.cwes = vulnerability.cwes && vulnerability.cwes.length > 0 
                                 ? vulnerability.cwes[vulnerability.cwes.length - 1].replace(
                                     /CWE-(\d+)/g, (match, captureCweNumber) => {
