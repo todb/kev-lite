@@ -446,7 +446,7 @@
                                 const cveId = row.querySelector('a[target="_cve"]').textContent.toLowerCase();
                                 
                                 // Show or hide the row based on whether it matches the search term
-                                if (vulnerability.includes(searchTerm.toLowerCase()) || cveId.includes(searchTerm.toLowerCase())) {
+                                if (vulnerability.includes(searchTerm.trim().toLowerCase()) || cveId.includes(searchTerm.trim().toLowerCase())) {
                                     row.style.display = 'table-row';
                                     visibleVulns += 1;
                                 } else {
