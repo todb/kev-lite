@@ -1,230 +1,301 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <link rel="shortcut icon" type="image/png" href="favicon.png">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KEV Lite</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">    <style>
-        .table-striped tbody tr:nth-of-type(odd) {
-            background-color: #f0f8ff;
-        }
-        
-        .table-sm td,
-        .table-sm th {
-            font-size: 0.8rem;
-        }
-        
-        .table-sm .vulnerability-name-cell {
-            width: 66%;
-            max-width: 66%;
-            word-wrap: break-word;
-            overflow: hidden;
-        }
-        
-        .card-body p {
-            word-wrap: break-word;
-        }
-        
-        .table {
-            width: 100%;
-            max-width: 100%;
-        }
-        
-        .form-control {
-            width: 50%;
-        }
-        
-    </style>
-    
-    <style>
-        body.dark-mode {
-            background-color: #222;
-            color: #fff;
-        }
-        .dark-mode a,
-        .dark-mode a:visited {
-            color: cyan; 
-        }
-        
-        .dark-mode .table-striped tbody tr:nth-of-type(odd),
-        .dark-mode .card-body,
-        .dark-mode .form-control,
-        .dark-mode .card-body p,
-        .dark-mode th {
-            background-color: #333;
-            color: #fff;
-        }
-        
-        .toggleable-background{
-            background-color: #f0f8ff;
-        }
-        
-        .toggleable-background-bold-green {
-            font-weight: bold;
-            background-color: #f0f8ff;
-            color: green;
-        }
-        
-        body.dark-mode .toggleable-background,
-        body.dark-mode .toggleable-background-bold-green {
-            background-color: #333;
-        }
+    <head>
+        <link rel="shortcut icon" type="image/png" href="favicon.png" />
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>KEV Lite</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+            crossorigin="anonymous"
+        />
+        <style>
+            .table-striped tbody tr:nth-of-type(odd) {
+                background-color: #f0f8ff;
+            }
 
-        #about-toggle {
-            color: blue;
-            text-decoration: underline;
-            cursor: pointer;
-        }
+            .table-sm td,
+            .table-sm th {
+                font-size: 0.8rem;
+            }
 
-        .dark-mode #about-toggle {
-            color: cyan; /* Set color to cyan in dark mode */
-        }
+            .table-sm .vulnerability-name-cell {
+                width: 66%;
+                max-width: 66%;
+                word-wrap: break-word;
+                overflow: hidden;
+            }
 
-    </style>
+            .card-body p {
+                word-wrap: break-word;
+            }
 
-    <style>
-        .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        }
+            .table {
+                width: 100%;
+                max-width: 100%;
+            }
 
-        .header h6 {
-        margin: 0;
-        font-size: 0.8rem; /* Adjust size of h6 */
-        }
+            .form-control {
+                width: 50%;
+            }
+        </style>
 
-        .header a {
-        text-decoration: none; /* Optional: removes underline */
-        }
+        <style>
+            body.dark-mode {
+                background-color: #222;
+                color: #fff;
+            }
+            .dark-mode a,
+            .dark-mode a:visited {
+                color: cyan;
+            }
 
-    </style>
-    
-</head>
+            .dark-mode .table-striped tbody tr:nth-of-type(odd),
+            .dark-mode .card-body,
+            .dark-mode .form-control,
+            .dark-mode .card-body p,
+            .dark-mode th {
+                background-color: #333;
+                color: #fff;
+            }
 
-<body>
-    <div class="container-fluid mt-4">
-        
-        <div class="header">
-            <h1 class="mb-4">KEV Lite</h1>
-            <h6>by <a href="https://hugesuccess.org">Huge Success, LLC</a></h6>
-        </div>
-        
-        <div class="mb-3">
-            <input type="text" class="form-control" id="searchInput" placeholder="Filter by CVE/Vuln">
-        </div>        
-        
-        <div id="about-toggle">[about]</div>
+            .toggleable-background {
+                background-color: #f0f8ff;
+            }
 
-        <div id="about" style="display: none;">
-        <p>A low-calorie view of the current KEV list. This page is very
-            unofficial and not fit for any purpose. You almost certainly want
-            the <a href="https://cisa.gov/kev">real KEV</a> catalog if you're
-            going to rely on this data. Patches for this page are accepted at
-            <a href="https://github.com/todb/kev-lite">GitHub</a>.</p>        
-            <p>
-                Click anywhere <span class="toggleable-background">in a
-                    row</span> to expand for more details, references, and notes.
+            .toggleable-background-bold-green {
+                font-weight: bold;
+                background-color: #f0f8ff;
+                color: green;
+            }
+
+            body.dark-mode .toggleable-background,
+            body.dark-mode .toggleable-background-bold-green {
+                background-color: #333;
+            }
+
+            #about-toggle {
+                color: blue;
+                text-decoration: underline;
+                cursor: pointer;
+            }
+
+            .dark-mode #about-toggle {
+                color: cyan; /* Set color to cyan in dark mode */
+            }
+        </style>
+
+        <style>
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .header h6 {
+                margin: 0;
+                font-size: 0.8rem; /* Adjust size of h6 */
+            }
+
+            .header a {
+                text-decoration: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container-fluid mt-4">
+            <div class="header">
+                <h1 class="mb-4">KEV Lite</h1>
+                <h6>
+                    by <a href="https://hugesuccess.org">Huge Success, LLC</a>
+                </h6>
+            </div>
+
+            <div class="mb-3">
+                <input
+                    type="text"
+                    class="form-control"
+                    id="searchInput"
+                    placeholder="Filter by CVE/Vuln"
+                />
+                <a href="https://cisa.gov/kev" target="_blank"
+                    >did you want the real KEV?</a
+                >
+            </div>
+
+            <div id="about-toggle">[about kev-lite]</div>
+
+            <div id="about" style="display: none">
+                <p>
+                    A low-calorie view of the current KEV list. This page is
+                    very unofficial and not fit for any purpose. You almost
+                    certainly want the
+                    <a href="https://cisa.gov/kev">real KEV</a> catalog if
+                    you're going to rely on this data. Patches for this page are
+                    accepted at
+                    <a href="https://github.com/todb/kev-lite">GitHub</a>.
                 </p>
                 <p>
-                    Copy the <span class="toggleable-background"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></span>
-                    links to deeplink to a particular CVE entry on this page. Clicking
-                    the CVE directly will open the original CVE at
+                    Click anywhere
+                    <span class="toggleable-background">in a row</span> to
+                    expand for more details, references, and notes.
+                </p>
+                <p>
+                    Copy the
+                    <span class="toggleable-background"
+                        ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 16 16"
+                            width="16"
+                            height="16"
+                        >
+                            <path
+                                d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"
+                            ></path></svg
+                    ></span>
+                    links to deeplink to a particular CVE entry on this page.
+                    Clicking the CVE directly will open the original CVE at
                     <a href="https://cve.org">CVE.org</a>.
                 </p>
-                <p>Vulnerabilities marked with
-                    <span class="toggleable-background"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill="green" d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg></span>
+                <p>
+                    Vulnerabilities marked with
+                    <span class="toggleable-background"
+                        ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 16 16"
+                            width="16"
+                            height="16"
+                        >
+                            <path
+                                fill="green"
+                                d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"
+                            ></path></svg
+                    ></span>
                     are known to be involved with ransomware attacks.
                 </p>
-                <p> All of these vulnerabilities are serious, of course, but those
-                    marked with due dates in <span class="toggleable-background-bold-green">green and bold</span>
-                    are the freshest, most recently added issues.</p>
-                    <hr/>
-                </div>
+                <p>
+                    All of these vulnerabilities are serious, of course, but
+                    those marked with due dates in
+                    <span class="toggleable-background-bold-green"
+                        >green and bold</span
+                    >
+                    are the freshest, most recently added issues.
+                </p>
+                <hr />
+            </div>
 
-                    <div id="data-container"></div>
-                    
-                    <!-- Bootstrap JS and Popper.js (required for some Bootstrap components) -->
-                    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-                    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
-                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-                    
-                    <!-- Thanks ChatGPT for most of this JavaScript / JQuery code -->
-                    <script>
-                        fetch('https://todb.github.io/kev-lite/cisa.json') // Just assuming cisa.gov isn't going to poison us intentionally...
-                        .then(response => response.json())
-                        .then(data => {
-                            // Sort vulnerabilities by dateAdded, then by CVE ID (latest first)
-                            data.vulnerabilities.sort((a, b) => {
-                                const dateComparison = new Date(b.dateAdded) - new Date(a.dateAdded);
-                                
-                                if (dateComparison !== 0) {
-                                    // If dateAdded is different, return the result of dateComparison
-                                    return dateComparison;
-                                } else {
-                                    // If dateAdded is the same, compare CVE IDs
-                                    return a.cveID.localeCompare(b.cveID);
-                                }
-                            });
-                            const jsonData = data;
-                            renderData(jsonData);
-                        })
-                        .catch(error => console.error('Error fetching data:', error));
-                        
-                        function renderData(data) {
-                            const container = document.getElementById('data-container');
-                            
-                            // Iterate through vulnerabilities fix up the data to be nicely formatted
+            <div id="data-container"></div>
 
-                            data.vulnerabilities.forEach(vulnerability => {
+            <!-- Bootstrap JS and Popper.js (required for some Bootstrap components) -->
+            <script
+                src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+                integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+                crossorigin="anonymous"
+            ></script>
+            <script
+                src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
+                integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG"
+                crossorigin="anonymous"
+            ></script>
+            <script
+                src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+                integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+                crossorigin="anonymous"
+            ></script>
 
-                                // Drop the trailing word "Vulnerability" from all names.
-                                vulnerability.vulnerabilityName = vulnerability.vulnerabilityName
-                                    .replace(/Vulnerability\s*$/, '');
-                                
-                                // Parse out and link to last CWE since it's usually the best one.
-                                vulnerability.cwes = vulnerability.cwes && vulnerability.cwes.length > 0 
-                                ? vulnerability.cwes[vulnerability.cwes.length - 1].replace(
-                                    /CWE-(\d+)/g, (match, captureCweNumber) => {
-                                        return `<a href="https://cwe.mitre.org/data/definitions/${captureCweNumber}.html" target="_blank">CWE-${captureCweNumber}</a>`;
+            <!-- Thanks ChatGPT for most of this JavaScript / JQuery code -->
+            <script>
+                fetch(
+                    "https://raw.githubusercontent.com/cisagov/kev-data/refs/heads/develop/known_exploited_vulnerabilities.json",
+                ) // Now from github proper, yay
+                    .then((response) => response.json())
+                    .then((data) => {
+                        // Sort vulnerabilities by dateAdded, then by CVE ID (latest first)
+                        data.vulnerabilities.sort((a, b) => {
+                            const dateComparison =
+                                new Date(b.dateAdded) - new Date(a.dateAdded);
+
+                            if (dateComparison !== 0) {
+                                // If dateAdded is different, return the result of dateComparison
+                                return dateComparison;
+                            } else {
+                                // If dateAdded is the same, compare CVE IDs
+                                return a.cveID.localeCompare(b.cveID);
+                            }
+                        });
+                        const jsonData = data;
+                        renderData(jsonData);
+                    })
+                    .catch((error) =>
+                        console.error("Error fetching data:", error),
+                    );
+
+                function renderData(data) {
+                    const container = document.getElementById("data-container");
+
+                    // Iterate through vulnerabilities fix up the data to be nicely formatted
+
+                    data.vulnerabilities.forEach((vulnerability) => {
+                        // Drop the trailing word "Vulnerability" from all names.
+                        vulnerability.vulnerabilityName =
+                            vulnerability.vulnerabilityName.replace(
+                                /Vulnerability\s*$/,
+                                "",
+                            );
+
+                        // Parse out and link to last CWE since it's usually the best one.
+                        vulnerability.cwes =
+                            vulnerability.cwes && vulnerability.cwes.length > 0
+                                ? vulnerability.cwes[
+                                      vulnerability.cwes.length - 1
+                                  ].replace(
+                                      /CWE-(\d+)/g,
+                                      (match, captureCweNumber) => {
+                                          return `<a href="https://cwe.mitre.org/data/definitions/${captureCweNumber}.html" target="_blank">CWE-${captureCweNumber}</a>`;
+                                      },
+                                  )
+                                : "";
+
+                        // Deal with the URLs in the notes
+                        vulnerability.notes = vulnerability.notes
+                            .replace(
+                                /(https?:\/\/[^\s,;]+)([\s,;]*)/g,
+                                (match, captureLink, captureTrailing) => {
+                                    // Check for redundant URLs to CVE listings.
+                                    if (captureLink.includes("nvd.nist.gov")) {
+                                        return ""; // Discard this URL by returning an empty string
                                     }
-                                ) 
-                                : '';
 
-                                // Deal with the URLs in the notes
-                                vulnerability.notes = vulnerability.notes
-                                    .replace(/(https?:\/\/[^\s,;]+)([\s,;]*)/g, (match, captureLink, captureTrailing) => {
+                                    // Check if captureLink ends with a period or semicolon
+                                    if (
+                                        captureLink.endsWith(".") ||
+                                        captureLink.endsWith(";")
+                                    ) {
+                                        // Remove the trailing period or semicolon
+                                        captureLink = captureLink.slice(0, -1);
+                                        // Adjust captureTrailing to handle the case where we removed the punctuation
+                                        captureTrailing = ". ";
+                                    }
 
-                                        // Check for redundant URLs to CVE listings.
-                                        if (captureLink.includes('nvd.nist.gov')) {
-                                            return '';  // Discard this URL by returning an empty string
-                                        }
+                                    return `<a href="${captureLink}" target="_blank">${captureLink}</a>${captureTrailing}`;
+                                },
+                            )
+                            // Tidy up any trailing semicolons or spaces
+                            .replace(/[\s;]+$/, "");
+                    });
 
-                                        // Check if captureLink ends with a period or semicolon
-                                        if (captureLink.endsWith('.') || captureLink.endsWith(';')) {
-                                            // Remove the trailing period or semicolon
-                                            captureLink = captureLink.slice(0, -1);
-                                            // Adjust captureTrailing to handle the case where we removed the punctuation
-                                            captureTrailing = '. ';
-                                        }
-
-                                        return `<a href="${captureLink}" target="_blank">${captureLink}</a>${captureTrailing}`;
-                                    })
-                                    // Tidy up any trailing semicolons or spaces
-                                    .replace(/[\s;]+$/, '');
-                            });
-
-
-                            container.innerHTML += `<h2 data-total-count="${data.count}">Catalog Version: ${data.catalogVersion}<br>Total KEV count: <b>${data.count}</b><p id="shownRowsCount"></p></h2>
+                    container.innerHTML += `<h2 data-total-count="${data.count}">Catalog Version: ${data.catalogVersion}<br>Total KEV count: <b>${data.count}</b><p id="shownRowsCount"></p></h2>
                             <button class="btn btn-primary mb-3" id="expandAllBtn">Expand All Rows</button>
                             <button class="btn btn-primary mb-3" id="collapseAllBtn">Collapse All Rows</button>
                             <button class="btn btn-primary mb-3" id="darkModeToggle">Toggle Dark Mode</button>
                             <p><i>These expand/collapse buttons take a few seconds to respond, be patient when using them, please!</i></p>
                             `;
-                            
-                            // Create a table with Bootstrap's table-striped class
-                            container.innerHTML += `
+
+                    // Create a table with Bootstrap's table-striped class
+                    container.innerHTML += `
                             <table class="table table-sm table-striped mt-3">
                                 <thead>
                                     <tr>
@@ -239,15 +310,20 @@
                                 </tbody>
                             </table>
                             `;
-                            
-                            const tableBody = document.getElementById('vulnerability-table-body');
-                            
-                            data.vulnerabilities.forEach(vulnerability => {
-                                const row = document.createElement('tr');
-                                
-                                const isDueDateInFuture = new Date(vulnerability.dueDate) >= new Date();
-                                const boldStyle = isDueDateInFuture ? 'font-weight: bold; color: green;' : '';
-                                row.innerHTML = `
+
+                    const tableBody = document.getElementById(
+                        "vulnerability-table-body",
+                    );
+
+                    data.vulnerabilities.forEach((vulnerability) => {
+                        const row = document.createElement("tr");
+
+                        const isDueDateInFuture =
+                            new Date(vulnerability.dueDate) >= new Date();
+                        const boldStyle = isDueDateInFuture
+                            ? "font-weight: bold; color: green;"
+                            : "";
+                        row.innerHTML = `
                                 <td class="text-nowrap">
                                     <a href="#details-${vulnerability.cveID}" class="details-link" onclick="event.preventDefault();">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -258,276 +334,321 @@
                                 </td>
                                 <td class="vulnerability-name-cell">
                                     ${vulnerability.vulnerabilityName}
-                                    ${vulnerability.knownRansomwareCampaignUse === 'Known' ? '<svg fill="green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>' : ''}
+                                    ${vulnerability.knownRansomwareCampaignUse === "Known" ? '<svg fill="green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>' : ""}
                                 </td>
                                 <td class="text-nowrap">${vulnerability.cwes}</td>
                                 <td class="text-nowrap d-none d-md-table-cell">${vulnerability.dateAdded}</td>
                                 <td class="text-nowrap d-none d-md-table-cell" style="${boldStyle}">${vulnerability.dueDate}</td>
                                 `;
-                                
-                                row.setAttribute('data-toggle', 'collapse');
-                                row.setAttribute('data-target', `#details-${vulnerability.cveID}`);
-                                row.setAttribute('aria-controls', `details-${vulnerability.cveID}`);
-                                row.classList.add('clickable-row');
-                                tableBody.appendChild(row);
-                                
-                                const detailsRow = document.createElement('tr');
-                                detailsRow.innerHTML = `
+
+                        row.setAttribute("data-toggle", "collapse");
+                        row.setAttribute(
+                            "data-target",
+                            `#details-${vulnerability.cveID}`,
+                        );
+                        row.setAttribute(
+                            "aria-controls",
+                            `details-${vulnerability.cveID}`,
+                        );
+                        row.classList.add("clickable-row");
+                        tableBody.appendChild(row);
+
+                        const detailsRow = document.createElement("tr");
+                        detailsRow.innerHTML = `
                                 <td colspan="5" class="p-0">
                                     <div class="collapse" id="details-${vulnerability.cveID}">
                                         <div class="card card-body">
                                             <p><strong>Description:</strong> ${vulnerability.shortDescription}</p>
                                             <p><strong>Action:</strong> ${vulnerability.requiredAction}</p>
-                                            ${vulnerability.notes ? `<p><strong>Notes and Links:</strong> ${vulnerability.notes}</p>` : ''}
+                                            ${vulnerability.notes ? `<p><strong>Notes and Links:</strong> ${vulnerability.notes}</p>` : ""}
                                             <p><strong>Date added:</strong><span> ${formatDate(vulnerability.dateAdded)}</span></p>
                                             <p><strong>Due Date:</strong><span style="${boldStyle}"> ${formatDate(vulnerability.dueDate)}</span></p>
-                                            ${vulnerability.knownRansomwareCampaignUse === 'Known' ? '<p><em>Note, this vulnerability has been used in at least one ransomware campaign.</em></p>' : ''}
+                                            ${vulnerability.knownRansomwareCampaignUse === "Known" ? "<p><em>Note, this vulnerability has been used in at least one ransomware campaign.</em></p>" : ""}
                                         </div>
                                     </div>
                                 </td>
                                 `;
-                                
-                                tableBody.appendChild(detailsRow);
-                            });
-                            
-                            const clickableRows = document.querySelectorAll('.clickable-row');
-                            clickableRows.forEach(row => {
-                                row.addEventListener('click', () => {
-                                    const targetId = row.getAttribute('data-target');
-                                    const target = document.querySelector(targetId);
-                                    $(target).collapse('toggle');
-                                });
-                            });
-                            
-                            const expandAllBtn = document.getElementById('expandAllBtn');
-                            expandAllBtn.addEventListener('click', () => {
-                                clickableRows.forEach(row => {
-                                    const targetId = row.getAttribute('data-target');
-                                    const target = document.querySelector(targetId);
-                                    $(target).collapse('show');
-                                });
-                            });
-                            
-                            const collapseAllBtn = document.getElementById('collapseAllBtn');
-                            collapseAllBtn.addEventListener('click', () => {
-                                clickableRows.forEach(row => {
-                                    const targetId = row.getAttribute('data-target');
-                                    const target = document.querySelector(targetId);
-                                    $(target).collapse('hide');
-                                });
-                            });
-                        }
-                        
-                        document.addEventListener('DOMContentLoaded', function () {
-                            
-                            const searchInput = document.getElementById('searchInput');
-                            // Catch common misspellings of CVEs. Em-dashes and en-dashes, namely.
-                            const badCveRegex = /^\s*[Cc][Vv][Ee]([^-]\d{4}.\d{4}|-\d{4}[^-]\d{4})/;
 
-                            searchInput.addEventListener('input', function () {
-                            if (badCveRegex.test(this.value)) {
-                                searchInput.style.border = '2px solid red';
-                                searchInput.style.backgroundColor = '#f9d';
-                            } else {
-                                searchInput.style.border = '';
-                                searchInput.style.backgroundColor = '';
-                            }
-                                filterVulnerabilities(this.value);
-                            });
+                        tableBody.appendChild(detailsRow);
+                    });
 
-                            const expandAllBtn = document.getElementById('expandAllBtn');
-                            if (expandAllBtn) {
-                                expandAllBtn.addEventListener('click', () => {
-                                    clickableRows.forEach(row => {
-                                        const targetId = row.getAttribute('data-target');
-                                        const target = document.querySelector(targetId);
-                                        if (target) {
-                                            $(target).collapse('show');
-                                        }
-                                    });
-                                    showAllRows();
-                                });
-                                
-                            }
-                            
-                            const collapseAllBtn = document.getElementById('collapseAllBtn');
-                            if (collapseAllBtn) {
-                                collapseAllBtn.addEventListener('click', () => {
-                                    clickableRows.forEach(row => {
-                                        const targetId = row.getAttribute('data-target');
-                                        const target = document.querySelector(targetId);
-                                        if (target) {
-                                            $(target).collapse('hide');
-                                        }
-                                    });
-                                    hideAllRows();
-                                });
-                            }
-                            
-                            const darkModeToggle = document.getElementById('darkModeToggle');
-                            const darkModeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-                            
-                            if (darkModeMediaQuery.matches) {
-                                document.body.classList.add('dark-mode');
-                            }
-                            
-                            if (darkModeToggle) {
-                                darkModeToggle.addEventListener('click', () => {
-                                    toggleDarkMode();
-                                });
-                            }
-                            
+                    const clickableRows =
+                        document.querySelectorAll(".clickable-row");
+                    clickableRows.forEach((row) => {
+                        row.addEventListener("click", () => {
+                            const targetId = row.getAttribute("data-target");
+                            const target = document.querySelector(targetId);
+                            $(target).collapse("toggle");
                         });
-                        
-                        setTimeout(function () {
-                            handleInitialNavigation();
-                        }, 1000);
-                        
-                        document.body.addEventListener('click', function (event) {
-                            const darkModeToggle = event.target.closest('#darkModeToggle');
-                            if (darkModeToggle) {
-                                toggleDarkMode();
-                            }
+                    });
+
+                    const expandAllBtn =
+                        document.getElementById("expandAllBtn");
+                    expandAllBtn.addEventListener("click", () => {
+                        clickableRows.forEach((row) => {
+                            const targetId = row.getAttribute("data-target");
+                            const target = document.querySelector(targetId);
+                            $(target).collapse("show");
                         });
-                        
-                        function isMobileBrowser() {
-                            // Use user agent detection or feature detection to identify mobile browsers
-                            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                    });
+
+                    const collapseAllBtn =
+                        document.getElementById("collapseAllBtn");
+                    collapseAllBtn.addEventListener("click", () => {
+                        clickableRows.forEach((row) => {
+                            const targetId = row.getAttribute("data-target");
+                            const target = document.querySelector(targetId);
+                            $(target).collapse("hide");
+                        });
+                    });
+                }
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    const searchInput = document.getElementById("searchInput");
+                    // Catch common misspellings of CVEs. Em-dashes and en-dashes, namely.
+                    const badCveRegex =
+                        /^\s*[Cc][Vv][Ee]([^-]\d{4}.\d{4}|-\d{4}[^-]\d{4})/;
+
+                    searchInput.addEventListener("input", function () {
+                        if (badCveRegex.test(this.value)) {
+                            searchInput.style.border = "2px solid red";
+                            searchInput.style.backgroundColor = "#f9d";
+                        } else {
+                            searchInput.style.border = "";
+                            searchInput.style.backgroundColor = "";
                         }
-                        
-                        function toggleDarkMode() {
-                            document.body.classList.toggle('dark-mode');
-                        }
-                        
-                        function scrollToTarget(target) {
-                            target.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'start'
-                            });
-                        }
-                        
-                        function formatDate(inputDate) {
-                            // Assuming inputDate is in the format "YYYY-MM-DD"
-                            const [year, month, day] = inputDate.split('-');
-                            
-                            // Construct the date without using time information
-                            const formattedDate = new Date(Date.UTC(year, month - 1, day)).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                                timeZone: 'UTC' // Specify UTC to avoid timezone adjustments
-                            });
-                            
-                            return formattedDate;
-                        }
-                        
-                        function showAllRows() {
-                            const clickableRows = document.querySelectorAll('.clickable-row');
-                            clickableRows.forEach(row => {
-                                row.style.display = 'table-row';
-                            });
-                            hideDetailsRows();
-                        }
-                        
-                        function hideAllRows() {
-                            const clickableRows = document.querySelectorAll('.clickable-row');
-                            clickableRows.forEach(row => {
-                                row.style.display = 'none';
-                            });
-                            hideDetailsRows();
-                        }
-                        
-                        function hideDetailsRows() {
-                            const detailsRows = document.querySelectorAll('.clickable-row + tr');
-                            detailsRows.forEach(row => {
-                                const parentRow = row.previousElementSibling;
-                                if (parentRow.style.display === 'none') {
-                                    row.style.display = 'none';
-                                } else {
-                                    row.style.display = 'table-row';
-                                }
-                            });
-                        }
-                        
-                        function handleInitialNavigation() {
-                            const hash = window.location.hash;
-                            if (hash && typeof $ !== 'undefined' && typeof $.fn.collapse !== 'undefined') {
-                                const target = document.querySelector(hash);
+                        filterVulnerabilities(this.value);
+                    });
+
+                    const expandAllBtn =
+                        document.getElementById("expandAllBtn");
+                    if (expandAllBtn) {
+                        expandAllBtn.addEventListener("click", () => {
+                            clickableRows.forEach((row) => {
+                                const targetId =
+                                    row.getAttribute("data-target");
+                                const target = document.querySelector(targetId);
                                 if (target) {
-                                    if (isMobileBrowser()) {
-                                        // For mobile browsers, toggle the collapse manually and scroll to the target
-                                        $(target).collapse('toggle');
-                                        scrollToTarget(target);
-                                    } else {
-                                        // For other browsers, use the Bootstrap collapse method and scroll to the target
-                                        $(target).collapse('show');
-                                        target.scrollIntoView({
-                                            behavior: 'smooth',
-                                            block: 'start'
-                                        });
-                                        // Find the index of the row with the target hash
-                                        const rows = document.querySelectorAll('.clickable-row');
-                                        let rowIndex = -1;
-                                        rows.forEach((row, index) => {
-                                            const targetId = row.getAttribute('data-target');
-                                            if (targetId === hash) {
-                                                rowIndex = index;
-                                            }
-                                        });
-                                        // Calculate the height of the header row based on the row index and scroll there
-                                        const rowHeight = rowIndex >= 0 ? rows[rowIndex].clientHeight : 0;
-                                        window.scrollBy(0, -rowHeight);
-                                    }
-                                }
-                            }
-                        }
-                        
-                        function filterVulnerabilities(searchTerm) {
-                            let visibleVulns = 0;
-                            
-                            const clickableRows = document.querySelectorAll('.clickable-row');
-                            clickableRows.forEach(row => {
-                                const vulnerability = row.querySelector('.vulnerability-name-cell').textContent.toLowerCase();
-                                const cveId = row.querySelector('a[target="_cve"]').textContent.toLowerCase();
-                                
-                                // Show or hide the row based on whether it matches the search term
-                                if (vulnerability.includes(searchTerm.trim().toLowerCase()) || cveId.includes(searchTerm.trim().toLowerCase())) {
-                                    row.style.display = 'table-row';
-                                    visibleVulns += 1;
-                                } else {
-                                    row.style.display = 'none';
+                                    $(target).collapse("show");
                                 }
                             });
-                            
-                            hideDetailsRows();
-                            updateShownRowsCount(visibleVulns);
-                        }
-                        
-                        function updateShownRowsCount(visibleVulns) {
-                            const shownRowsCountElement = document.getElementById('shownRowsCount');
-                            const totalCount = document.querySelector('h2').getAttribute('data-total-count');
-                            if (visibleVulns == 1) {
-                                shownRowsCountElement.textContent = `Showing just ${visibleVulns} CVE`;
-                            } else if (visibleVulns == totalCount) {
-                                shownRowsCountElement.textContent = `Showing all CVEs`;
-                            } else if (visibleVulns == 0) {
-                                shownRowsCountElement.textContent = `Showing no CVEs. Check your filter term?`;
-                            } else {
-                                shownRowsCountElement.textContent = `Showing ${visibleVulns} CVEs`;
-                            }
-                        }
-                        
-                        document.getElementById('about-toggle').addEventListener('click', function() {
-                            var aboutDiv = document.getElementById('about');
-                            if (aboutDiv.style.display === 'none') {
-                                aboutDiv.style.display = 'block';
-                            } else {
-                                aboutDiv.style.display = 'none';
-                            }
+                            showAllRows();
                         });
+                    }
 
-                    </script>
-                </div>
-            </body>
-            </html>
-            
+                    const collapseAllBtn =
+                        document.getElementById("collapseAllBtn");
+                    if (collapseAllBtn) {
+                        collapseAllBtn.addEventListener("click", () => {
+                            clickableRows.forEach((row) => {
+                                const targetId =
+                                    row.getAttribute("data-target");
+                                const target = document.querySelector(targetId);
+                                if (target) {
+                                    $(target).collapse("hide");
+                                }
+                            });
+                            hideAllRows();
+                        });
+                    }
+
+                    const darkModeToggle =
+                        document.getElementById("darkModeToggle");
+                    const darkModeMediaQuery = window.matchMedia(
+                        "(prefers-color-scheme: dark)",
+                    );
+
+                    if (darkModeMediaQuery.matches) {
+                        document.body.classList.add("dark-mode");
+                    }
+
+                    if (darkModeToggle) {
+                        darkModeToggle.addEventListener("click", () => {
+                            toggleDarkMode();
+                        });
+                    }
+                });
+
+                setTimeout(function () {
+                    handleInitialNavigation();
+                }, 1000);
+
+                document.body.addEventListener("click", function (event) {
+                    const darkModeToggle =
+                        event.target.closest("#darkModeToggle");
+                    if (darkModeToggle) {
+                        toggleDarkMode();
+                    }
+                });
+
+                function isMobileBrowser() {
+                    // Use user agent detection or feature detection to identify mobile browsers
+                    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+                        navigator.userAgent,
+                    );
+                }
+
+                function toggleDarkMode() {
+                    document.body.classList.toggle("dark-mode");
+                }
+
+                function scrollToTarget(target) {
+                    target.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                    });
+                }
+
+                function formatDate(inputDate) {
+                    // Assuming inputDate is in the format "YYYY-MM-DD"
+                    const [year, month, day] = inputDate.split("-");
+
+                    // Construct the date without using time information
+                    const formattedDate = new Date(
+                        Date.UTC(year, month - 1, day),
+                    ).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        timeZone: "UTC", // Specify UTC to avoid timezone adjustments
+                    });
+
+                    return formattedDate;
+                }
+
+                function showAllRows() {
+                    const clickableRows =
+                        document.querySelectorAll(".clickable-row");
+                    clickableRows.forEach((row) => {
+                        row.style.display = "table-row";
+                    });
+                    hideDetailsRows();
+                }
+
+                function hideAllRows() {
+                    const clickableRows =
+                        document.querySelectorAll(".clickable-row");
+                    clickableRows.forEach((row) => {
+                        row.style.display = "none";
+                    });
+                    hideDetailsRows();
+                }
+
+                function hideDetailsRows() {
+                    const detailsRows = document.querySelectorAll(
+                        ".clickable-row + tr",
+                    );
+                    detailsRows.forEach((row) => {
+                        const parentRow = row.previousElementSibling;
+                        if (parentRow.style.display === "none") {
+                            row.style.display = "none";
+                        } else {
+                            row.style.display = "table-row";
+                        }
+                    });
+                }
+
+                function handleInitialNavigation() {
+                    const hash = window.location.hash;
+                    if (
+                        hash &&
+                        typeof $ !== "undefined" &&
+                        typeof $.fn.collapse !== "undefined"
+                    ) {
+                        const target = document.querySelector(hash);
+                        if (target) {
+                            if (isMobileBrowser()) {
+                                // For mobile browsers, toggle the collapse manually and scroll to the target
+                                $(target).collapse("toggle");
+                                scrollToTarget(target);
+                            } else {
+                                // For other browsers, use the Bootstrap collapse method and scroll to the target
+                                $(target).collapse("show");
+                                target.scrollIntoView({
+                                    behavior: "smooth",
+                                    block: "start",
+                                });
+                                // Find the index of the row with the target hash
+                                const rows =
+                                    document.querySelectorAll(".clickable-row");
+                                let rowIndex = -1;
+                                rows.forEach((row, index) => {
+                                    const targetId =
+                                        row.getAttribute("data-target");
+                                    if (targetId === hash) {
+                                        rowIndex = index;
+                                    }
+                                });
+                                // Calculate the height of the header row based on the row index and scroll there
+                                const rowHeight =
+                                    rowIndex >= 0
+                                        ? rows[rowIndex].clientHeight
+                                        : 0;
+                                window.scrollBy(0, -rowHeight);
+                            }
+                        }
+                    }
+                }
+
+                function filterVulnerabilities(searchTerm) {
+                    let visibleVulns = 0;
+
+                    const clickableRows =
+                        document.querySelectorAll(".clickable-row");
+                    clickableRows.forEach((row) => {
+                        const vulnerability = row
+                            .querySelector(".vulnerability-name-cell")
+                            .textContent.toLowerCase();
+                        const cveId = row
+                            .querySelector('a[target="_cve"]')
+                            .textContent.toLowerCase();
+
+                        // Show or hide the row based on whether it matches the search term
+                        if (
+                            vulnerability.includes(
+                                searchTerm.trim().toLowerCase(),
+                            ) ||
+                            cveId.includes(searchTerm.trim().toLowerCase())
+                        ) {
+                            row.style.display = "table-row";
+                            visibleVulns += 1;
+                        } else {
+                            row.style.display = "none";
+                        }
+                    });
+
+                    hideDetailsRows();
+                    updateShownRowsCount(visibleVulns);
+                }
+
+                function updateShownRowsCount(visibleVulns) {
+                    const shownRowsCountElement =
+                        document.getElementById("shownRowsCount");
+                    const totalCount = document
+                        .querySelector("h2")
+                        .getAttribute("data-total-count");
+                    if (visibleVulns == 1) {
+                        shownRowsCountElement.textContent = `Showing just ${visibleVulns} CVE`;
+                    } else if (visibleVulns == totalCount) {
+                        shownRowsCountElement.textContent = `Showing all CVEs`;
+                    } else if (visibleVulns == 0) {
+                        shownRowsCountElement.textContent = `Showing no CVEs. Check your filter term?`;
+                    } else {
+                        shownRowsCountElement.textContent = `Showing ${visibleVulns} CVEs`;
+                    }
+                }
+
+                document
+                    .getElementById("about-toggle")
+                    .addEventListener("click", function () {
+                        var aboutDiv = document.getElementById("about");
+                        if (aboutDiv.style.display === "none") {
+                            aboutDiv.style.display = "block";
+                        } else {
+                            aboutDiv.style.display = "none";
+                        }
+                    });
+            </script>
+        </div>
+    </body>
+</html>
