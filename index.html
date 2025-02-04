@@ -100,7 +100,7 @@
             }
 
             .header a {
-                text-decoration: none; /* Optional: removes underline */
+                text-decoration: none;
             }
         </style>
     </head>
@@ -121,9 +121,12 @@
                     id="searchInput"
                     placeholder="Filter by CVE/Vuln"
                 />
+                <a href="https://cisa.gov/kev" target="_blank"
+                    >did you want the real KEV?</a
+                >
             </div>
 
-            <div id="about-toggle">[about]</div>
+            <div id="about-toggle">[about kev-lite]</div>
 
             <div id="about" style="display: none">
                 <p>
@@ -205,7 +208,9 @@
 
             <!-- Thanks ChatGPT for most of this JavaScript / JQuery code -->
             <script>
-                fetch("https://todb.github.io/kev-lite/cisa.json") // Just assuming cisa.gov isn't going to poison us intentionally...
+                fetch(
+                    "https://raw.githubusercontent.com/cisagov/kev-data/refs/heads/develop/known_exploited_vulnerabilities.json",
+                ) // Now from github proper, yay
                     .then((response) => response.json())
                     .then((data) => {
                         // Sort vulnerabilities by dateAdded, then by CVE ID (latest first)
